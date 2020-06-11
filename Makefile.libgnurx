@@ -1,0 +1,22 @@
+# This file is grabbed from MXE's libgnurx. Visit `https://gitlab.com/mbunkus/mxe` for more information.
+
+include Makefile
+
+libgnurx.a: $(OBJECTS)
+	rm -f $@
+	$(MINGW32)-ar rcu $@ $(OBJECTS)
+	$(MINGW32)-ranlib $@
+
+install-common:
+	mkdir -p ${includedir} ${libdir}
+	cp -p ${srcdir}/regex.h ${includedir}
+
+install-static: install-common libgnurx.a
+	cp -p ${srcdir}/libgnurx.a ${libdir}
+	ln -sf ${libdir}/libgnurx.a ${libdir}/libregex.a
+
+install-shared: install-common libgnurx-$(DLLVERSION).dll libgnurx.dll.a
+	cp -p ${srcdir}/libgnurx.dll.a ${libdir}
+	cp -p ${srcdir}/libgnurx-$(DLLVERSION).dll ${bindir}
+	ln -sf ${libdir}/libgnurx.dll.a ${libdir}/libregex.dll.a
+	ln -sf ${bindir}/libgnurx-$(DLLVERSION).dll ${bindir}/libregex-$(DLLVERSION).dll
