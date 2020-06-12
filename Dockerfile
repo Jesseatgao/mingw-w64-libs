@@ -30,7 +30,7 @@ RUN cd $SRC \
 	&& curl -L -O https://zlib.net/zlib-1.2.11.tar.xz \
 	&& curl -L -O https://sourceforge.net/projects/expat/files/expat/2.2.6/expat-2.2.6.tar.bz2 \
 	&& curl -L -O https://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.16.tar.gz \
-	&& curl -L -O https://sourceforge.net/projects/boost/files/boost/1.73.0/boost_1_73_0.tar.bz2 \
+	&& curl -L -O https://mirror.alpix.eu/redcorelinux/distfiles/boost_1_73_0.tar.bz2 \
 	&& curl -L -O https://ftp.osuosl.org/pub/xiph/releases/ogg/libogg-1.3.4.tar.xz \
 	&& curl -L -O https://ftp.osuosl.org/pub/xiph/releases/vorbis/libvorbis-1.3.6.tar.xz \
 	&& curl -L -O https://ftp.osuosl.org/pub/xiph/releases/flac/flac-1.3.3.tar.xz \
