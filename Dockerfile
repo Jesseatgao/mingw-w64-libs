@@ -80,15 +80,15 @@ ENV RC $WINDRES
 ENV DLLTOOL "${MINGW32}-dlltool ${DLLTOOL_FLAGS}"
 
 
-ARG MINGW32_SEARCH_PATH=/opt/mingw32/$HOST
-ARG PKG_CONFIG_PATH=${MINGW32_SEARCH_PATH}/lib/pkgconfig/
+ARG MINGW32_SEARCH_PATH=/opt/mingw32/x86_64-w64-mingw32
+#ARG PKG_CONFIG_PATH=${MINGW32_SEARCH_PATH}/lib/pkgconfig/
 
 ARG CFLAGS="${CFLAGS} -I${MINGW32_SEARCH_PATH}/include"
 ARG CXXFLAGS="${CXXFLAGS} -I${MINGW32_SEARCH_PATH}/include"
 ARG LDFLAGS="${LDFLAGS} -L${MINGW32_SEARCH_PATH}/lib"
 
 ARG BUILDROOT=/opt/mingw32/_buildroot
-ARG PREFIX=/opt/mingw32/_pkgs
+ARG PREFIX=/opt/mingw32/i686-w64-mingw32
 
 
 RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
@@ -255,15 +255,15 @@ ENV RC $WINDRES
 ENV DLLTOOL "${MINGW32}-dlltool ${DLLTOOL_FLAGS}"
 
 
-ARG MINGW32_SEARCH_PATH=/opt/mingw32/$HOST
-ARG PKG_CONFIG_PATH=${MINGW32_SEARCH_PATH}/lib/pkgconfig/
+ARG MINGW32_SEARCH_PATH=/opt/mingw32/i686-w64-mingw32
+#ARG PKG_CONFIG_PATH=${MINGW32_SEARCH_PATH}/lib/pkgconfig/
 
 ARG CFLAGS="${CFLAGS} -I${MINGW32_SEARCH_PATH}/include"
 ARG CXXFLAGS="${CXXFLAGS} -I${MINGW32_SEARCH_PATH}/include"
 ARG LDFLAGS="${LDFLAGS} -L${MINGW32_SEARCH_PATH}/lib"
 
 ARG BUILDROOT=/opt/mingw32/_buildroot
-ARG PREFIX=/opt/mingw32/_pkgs
+ARG PREFIX=/opt/mingw32/x86_64-w64-mingw32
 
 
 RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
@@ -416,11 +416,11 @@ RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
 FROM alpine:latest
 
 ## copy unpacked headers and libs (include/ libs/) - 32-bit
-COPY --from=build_i686 /opt/mingw32/i686-w64-mingw32/ /opt/mingw32/i686-w64-mingw32/devels/
+COPY --from=build_i686 /opt/mingw32/x86_64-w64-mingw32/ /opt/mingw32/i686-w64-mingw32/devels/
 ## copy individually packed headers and libs (.tar.xz) - 32-bit
-COPY --from=build_i686 /opt/mingw32/_pkgs/*.i686.tar.xz /opt/mingw32/i686-w64-mingw32/packages/
+COPY --from=build_i686 /opt/mingw32/i686-w64-mingw32/*.i686.tar.xz /opt/mingw32/i686-w64-mingw32/packages/
 
 ## copy unpacked headers and libs (include/ libs/) - 64-bit
-COPY --from=build_x86_64 /opt/mingw32/x86_64-w64-mingw32/ /opt/mingw32/x86_64-w64-mingw32/devels/
+COPY --from=build_x86_64 /opt/mingw32/i686-w64-mingw32/ /opt/mingw32/x86_64-w64-mingw32/devels/
 ## copy individually packed headers and libs (.tar.xz) - 64-bit
-COPY --from=build_x86_64 /opt/mingw32/_pkgs/*.x86_64.tar.xz /opt/mingw32/x86_64-w64-mingw32/packages/
+COPY --from=build_x86_64 /opt/mingw32/x86_64-w64-mingw32/*.x86_64.tar.xz /opt/mingw32/x86_64-w64-mingw32/packages/
