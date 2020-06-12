@@ -25,16 +25,16 @@ COPY Makefile.libgnurx $SRC
 
 RUN cd $SRC \
 \
-	&& curl -L -O https://nchc.dl.sourceforge.net/project/lzmautils/xz-5.2.5.tar.xz \
-	&& curl -L -O http://sourceforge.mirrorservice.org/b/bz/bzip2/bzip2-1.0.6.tar.gz \
+	&& curl -L -O https://sourceforge.net/projects/lzmautils/files/xz-5.2.5.tar.bz2 \
+	&& curl -L -O https://sourceware.org/pub/bzip2/bzip2-1.0.6.tar.gz \
 	&& curl -L -O https://zlib.net/zlib-1.2.11.tar.xz \
-	&& curl -L -O http://sourceforge.mirrorservice.org/e/ex/expat/expat/2.2.6/expat-2.2.6.tar.bz2 \
+	&& curl -L -O https://sourceforge.net/projects/expat/files/expat/2.2.6/expat-2.2.6.tar.bz2 \
 	&& curl -L -O https://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.16.tar.gz \
-	&& curl -L -O https://nchc.dl.sourceforge.net/project/boost/boost/1.73.0/boost_1_73_0.tar.bz2 \
+	&& curl -L -O https://sourceforge.net/projects/boost/files/boost/1.73.0/boost_1_73_0.tar.bz2 \
 	&& curl -L -O https://ftp.osuosl.org/pub/xiph/releases/ogg/libogg-1.3.4.tar.xz \
 	&& curl -L -O https://ftp.osuosl.org/pub/xiph/releases/vorbis/libvorbis-1.3.6.tar.xz \
 	&& curl -L -O https://ftp.osuosl.org/pub/xiph/releases/flac/flac-1.3.3.tar.xz \
-	&& curl -L -o mingw-libgnurx-2.5.1.tar.gz https://astuteinternet.dl.sourceforge.net/project/mingw/Other/UserContributed/regex/mingw-regex-2.5.1/mingw-libgnurx-2.5.1-src.tar.gz \
+	&& curl -L -o mingw-libgnurx-2.5.1.tar.gz https://sourceforge.net/projects/mingw/files/Other/UserContributed/regex/mingw-regex-2.5.1/mingw-libgnurx-2.5.1-src.tar.gz \
 	&& curl -L -o file-5.11.tar.gz https://github.com/file/file/archive/FILE5_11.tar.gz \
 	&& curl -L -O https://github.com/zeux/pugixml/releases/download/v1.10/pugixml-1.10.tar.gz \
 	&& curl -L -o fmt-6.2.1.tar.gz https://github.com/fmtlib/fmt/archive/6.2.1.tar.gz \
@@ -43,7 +43,7 @@ RUN cd $SRC \
 	&& curl -L -O https://ftp.gnu.org/pub/gnu/gettext/gettext-0.20.2.tar.gz \
 	&& curl -L -o nlohmann-json-3.7.3.zip https://github.com/nlohmann/json/releases/download/v3.7.3/include.zip \
 \
-	&& tar Jxvf xz-5.2.5.tar.xz \
+	&& tar jxvf xz-5.2.5.tar.bz2 \
 	&& tar zxvf bzip2-1.0.6.tar.gz \
 	&& tar Jxvf zlib-1.2.11.tar.xz \
 	&& tar jxvf expat-2.2.6.tar.bz2 \
