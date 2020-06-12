@@ -186,9 +186,9 @@ RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
 	&& cd $PREFIX && tar Jcvf flac-1.3.3.$ARCH.tar.xz include/ lib/ \
 	&& cp -rf include/ lib/ ${MINGW32_SEARCH_PATH} && rm -rf include/ lib/ \
 \
-	&& mkdir -p $BUILDROOT/mingw-libgnurx-2.5.1 && cd $BUILDROOT/mingw-libgnurx-2.5.1 \
+	&& cd $SRC/mingw-libgnurx-2.5.1 \
 	&& cp -f $SRC/Makefile.libgnurx . \
-	&& $SRC/mingw-libgnurx-2.5.1/configure --prefix=$PREFIX --host=$HOST --build=$BUILD --target=$HOST \
+	&& ./configure --prefix=$PREFIX --host=$HOST --build=$BUILD \
 	&& make -f Makefile.libgnurx -j `nproc` install-static MINGW32=$MINGW32 \
 	&& cd $PREFIX && tar Jcvf mingw-libgnurx-2.5.1.$ARCH.tar.xz include/ lib/ \
 	&& cp -rf include/ lib/ ${MINGW32_SEARCH_PATH} && rm -rf include/ lib/ \
@@ -361,9 +361,9 @@ RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
 	&& cd $PREFIX && tar Jcvf flac-1.3.3.$ARCH.tar.xz include/ lib/ \
 	&& cp -rf include/ lib/ ${MINGW32_SEARCH_PATH} && rm -rf include/ lib/ \
 \
-	&& mkdir -p $BUILDROOT/mingw-libgnurx-2.5.1 && cd $BUILDROOT/mingw-libgnurx-2.5.1 \
+	&& cd $SRC/mingw-libgnurx-2.5.1 \
 	&& cp -f $SRC/Makefile.libgnurx . \
-	&& $SRC/mingw-libgnurx-2.5.1/configure --prefix=$PREFIX --host=$HOST --build=$BUILD --target=$HOST \
+	&& ./configure --prefix=$PREFIX --host=$HOST --build=$BUILD \
 	&& make -f Makefile.libgnurx -j `nproc` install-static MINGW32=$MINGW32 \
 	&& cd $PREFIX && tar Jcvf mingw-libgnurx-2.5.1.$ARCH.tar.xz include/ lib/ \
 	&& cp -rf include/ lib/ ${MINGW32_SEARCH_PATH} && rm -rf include/ lib/ \

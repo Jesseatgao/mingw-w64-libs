@@ -13,10 +13,10 @@ install-common:
 
 install-static: install-common libgnurx.a
 	cp -p ${srcdir}/libgnurx.a ${libdir}
-	ln -sf ${libdir}/libgnurx.a ${libdir}/libregex.a
+	cp -p ${libdir}/libgnurx.a ${libdir}/libregex.a
 
 install-shared: install-common libgnurx-$(DLLVERSION).dll libgnurx.dll.a
 	cp -p ${srcdir}/libgnurx.dll.a ${libdir}
 	cp -p ${srcdir}/libgnurx-$(DLLVERSION).dll ${bindir}
-	ln -sf ${libdir}/libgnurx.dll.a ${libdir}/libregex.dll.a
-	ln -sf ${bindir}/libgnurx-$(DLLVERSION).dll ${bindir}/libregex-$(DLLVERSION).dll
+	cp -p ${libdir}/libgnurx.dll.a ${libdir}/libregex.dll.a
+	cp -p ${bindir}/libgnurx-$(DLLVERSION).dll ${bindir}/libregex-$(DLLVERSION).dll
