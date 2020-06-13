@@ -119,7 +119,7 @@ RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
 	&& cp -rf include/ lib/ ${MINGW32_SEARCH_PATH} && rm -rf include/ lib/ \
 \
 	&& mkdir -p $BUILDROOT/libiconv-1.16 && cd $BUILDROOT/libiconv-1.16 \
-	&& $SRC/libiconv-1.16/configure --prefix=$PREFIX --host=$HOST --build=$BUILD --enable-static=yes --enable-shared=no --disable-nls \
+	&& $SRC/libiconv-1.16/configure --prefix=$PREFIX --host=$HOST --build=$BUILD --enable-static=yes --enable-shared=yes --disable-nls \
 	&& make -j `nproc` && make install \
 	&& cd $PREFIX && tar Jcvf libiconv-1.16.$ARCH.tar.xz include/ lib/ \
 	&& cp -rf include/ lib/ ${MINGW32_SEARCH_PATH} && rm -rf include/ lib/ \
@@ -181,7 +181,7 @@ RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
 	&& cp -rf include/ lib/ ${MINGW32_SEARCH_PATH} && rm -rf include/ lib/ \
 \
 	&& mkdir -p $BUILDROOT/flac-1.3.3 && cd $BUILDROOT/flac-1.3.3 \
-	&& $SRC/flac-1.3.3/configure --prefix=$PREFIX --host=$HOST --enable-static=yes \
+	&& $SRC/flac-1.3.3/configure --prefix=$PREFIX --host=$HOST --enable-static=yes --with-ogg=${MINGW32_SEARCH_PATH} \
 	&& make -j `nproc` && make install \
 	&& cd $PREFIX && tar Jcvf flac-1.3.3.$ARCH.tar.xz include/ lib/ \
 	&& cp -rf include/ lib/ ${MINGW32_SEARCH_PATH} && rm -rf include/ lib/ \
@@ -224,7 +224,7 @@ RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
 	&& cp -rf include/ lib/ ${MINGW32_SEARCH_PATH} && rm -rf include/ lib/ \
 \
 	&& mkdir -p $BUILDROOT/gettext-0.20.2 && cd $BUILDROOT/gettext-0.20.2 \
-	&& $SRC/gettext-0.20.2/gettext-runtime/configure --prefix=$PREFIX --host=$HOST --build=$BUILD --enable-static=yes --enable-threads=win32 --without-libexpat-prefix  --without-libxml2-prefix \
+	&& $SRC/gettext-0.20.2/gettext-runtime/configure --prefix=$PREFIX --host=$HOST --build=$BUILD --enable-static=yes --enable-threads=windows \
 	&& make -C intl -j `nproc` && make -C intl install \
 	&& cd $PREFIX && tar Jcvf libintl-0.20.2.$ARCH.tar.xz include/ lib/ \
 	&& cp -rf include/ lib/ ${MINGW32_SEARCH_PATH} && rm -rf include/ lib/ \
@@ -294,7 +294,7 @@ RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
 	&& cp -rf include/ lib/ ${MINGW32_SEARCH_PATH} && rm -rf include/ lib/ \
 \
 	&& mkdir -p $BUILDROOT/libiconv-1.16 && cd $BUILDROOT/libiconv-1.16 \
-	&& $SRC/libiconv-1.16/configure --prefix=$PREFIX --host=$HOST --build=$BUILD --enable-static=yes --enable-shared=no --disable-nls \
+	&& $SRC/libiconv-1.16/configure --prefix=$PREFIX --host=$HOST --build=$BUILD --enable-static=yes --enable-shared=yes --disable-nls \
 	&& make -j `nproc` && make install \
 	&& cd $PREFIX && tar Jcvf libiconv-1.16.$ARCH.tar.xz include/ lib/ \
 	&& cp -rf include/ lib/ ${MINGW32_SEARCH_PATH} && rm -rf include/ lib/ \
@@ -356,7 +356,7 @@ RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
 	&& cp -rf include/ lib/ ${MINGW32_SEARCH_PATH} && rm -rf include/ lib/ \
 \
 	&& mkdir -p $BUILDROOT/flac-1.3.3 && cd $BUILDROOT/flac-1.3.3 \
-	&& $SRC/flac-1.3.3/configure --prefix=$PREFIX --host=$HOST --enable-static=yes \
+	&& $SRC/flac-1.3.3/configure --prefix=$PREFIX --host=$HOST --enable-static=yes --with-ogg=${MINGW32_SEARCH_PATH} \
 	&& make -j `nproc` && make install \
 	&& cd $PREFIX && tar Jcvf flac-1.3.3.$ARCH.tar.xz include/ lib/ \
 	&& cp -rf include/ lib/ ${MINGW32_SEARCH_PATH} && rm -rf include/ lib/ \
@@ -399,7 +399,7 @@ RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
 	&& cp -rf include/ lib/ ${MINGW32_SEARCH_PATH} && rm -rf include/ lib/ \
 \
 	&& mkdir -p $BUILDROOT/gettext-0.20.2 && cd $BUILDROOT/gettext-0.20.2 \
-	&& $SRC/gettext-0.20.2/gettext-runtime/configure --prefix=$PREFIX --host=$HOST --build=$BUILD --enable-static=yes --enable-threads=win32 --without-libexpat-prefix  --without-libxml2-prefix \
+	&& $SRC/gettext-0.20.2/gettext-runtime/configure --prefix=$PREFIX --host=$HOST --build=$BUILD --enable-static=yes --enable-threads=windows \
 	&& make -C intl -j `nproc` && make -C intl install \
 	&& cd $PREFIX && tar Jcvf libintl-0.20.2.$ARCH.tar.xz include/ lib/ \
 	&& cp -rf include/ lib/ ${MINGW32_SEARCH_PATH} && rm -rf include/ lib/ \
