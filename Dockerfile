@@ -61,7 +61,7 @@ RUN cd $SRC \
 	&& tar zxvf gettext-0.20.2.tar.gz \
 	&& unzip nlohmann-json-3.7.3.zip -d nlohmann-json-3.7.3 \
 \
-    && cd $SRC/boost_1_60_0 && git apply -p1 < $SRC/boost-1.60.0-fixes.patch \
+#    && cd $SRC/boost_1_60_0 && git apply -p1 < $SRC/boost-1.60.0-fixes.patch \
     && cd $SRC/gettext-0.20.2 && git apply -p1 < $SRC/gettext-0.20.2.patch
 
 
