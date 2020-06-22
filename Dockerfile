@@ -1,5 +1,5 @@
 ################### Stage: Prepare the sources to compile ######################
-FROM cgdoc/mingw-w64-multilib:latest AS builder
+FROM cgdoc/mingw-w64-multilib:posix-v1.0 AS builder
 
 
 ENV BUILD=x86_64-unknown-linux-gnu
@@ -61,7 +61,7 @@ RUN cd $SRC \
 	&& tar zxvf gettext-0.20.2.tar.gz \
 	&& unzip nlohmann-json-3.7.3.zip -d nlohmann-json-3.7.3 \
 \
-#    && cd $SRC/boost_1_60_0 && git apply -p1 < $SRC/boost-1.60.0-fixes.patch \
+    && cd $SRC/boost_1_60_0 && git apply -p1 < $SRC/boost-1.60.0-fixes.patch \
     && cd $SRC/gettext-0.20.2 && git apply -p1 < $SRC/gettext-0.20.2.patch
 
 
@@ -83,7 +83,7 @@ ENV RC $WINDRES
 ENV DLLTOOL "${MINGW32}-dlltool ${DLLTOOL_FLAGS}"
 
 
-ARG MINGW32_SEARCH_PATH=/opt/mingw32/x86_64-w64-mingw32
+ARG MINGW32_SEARCH_PATH=/opt/mingw32
 #ARG PKG_CONFIG_PATH=${MINGW32_SEARCH_PATH}/lib/pkgconfig/
 
 ARG CFLAGS="${CFLAGS} -I${MINGW32_SEARCH_PATH}/include"
@@ -251,14 +251,14 @@ ARG CXXFLAGS="-m64"
 ARG LDFLAGS="-m64"
 
 ARG WINDRES_FLAGS="-F pe-x86-64"
-ARG DLLTOOL_FLAGS="-m x86-64"
+ARG DLLTOOL_FLAGS="-m i386:x86-64"
 
 ENV WINDRES "${MINGW32}-windres ${WINDRES_FLAGS}"
 ENV RC $WINDRES
 ENV DLLTOOL "${MINGW32}-dlltool ${DLLTOOL_FLAGS}"
 
 
-ARG MINGW32_SEARCH_PATH=/opt/mingw32/i686-w64-mingw32
+ARG MINGW32_SEARCH_PATH=/opt/mingw32
 #ARG PKG_CONFIG_PATH=${MINGW32_SEARCH_PATH}/lib/pkgconfig/
 
 ARG CFLAGS="${CFLAGS} -I${MINGW32_SEARCH_PATH}/include"
