@@ -21,7 +21,7 @@ ENV NM $MINGW32-nm
 ENV SRC=/opt/_src/
 
 
-COPY Makefile.libgnurx boost-1.60.0-fixes.patch gettext-0.20.2.patch $SRC
+COPY Makefile.libgnurx-2.5.1 boost-1.60.0-fixes.patch gettext-0.20.2.patch $SRC
 
 RUN cd $SRC \
 \
@@ -190,9 +190,9 @@ RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
 	&& rm -rf include/ lib/ \
 \
 	&& cd $SRC/mingw-libgnurx-2.5.1 \
-	&& cp -f $SRC/Makefile.libgnurx . \
+	&& cp -f $SRC/Makefile.libgnurx-2.5.1 . \
 	&& ./configure --prefix=$PREFIX --host=$HOST --build=$BUILD \
-	&& make -f Makefile.libgnurx -j `nproc` install-static MINGW32=$MINGW32 \
+	&& make -f Makefile.libgnurx-2.5.1 -j `nproc` install-static MINGW32=$MINGW32 \
 	&& cd $PREFIX && tar Jcvf mingw-libgnurx-2.5.1.$ARCH.tar.xz include/ lib/ \
 	&& cp -rf include/ lib/ ${MINGW32_SEARCH_PATH} && rm -rf include/ lib/ \
 \
@@ -365,9 +365,9 @@ RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
 	&& rm -rf include/ lib/ \
 \
 	&& cd $SRC/mingw-libgnurx-2.5.1 \
-	&& cp -f $SRC/Makefile.libgnurx . \
+	&& cp -f $SRC/Makefile.libgnurx-2.5.1 . \
 	&& ./configure --prefix=$PREFIX --host=$HOST --build=$BUILD \
-	&& make -f Makefile.libgnurx -j `nproc` install-static MINGW32=$MINGW32 \
+	&& make -f Makefile.libgnurx-2.5.1 -j `nproc` install-static MINGW32=$MINGW32 \
 	&& cd $PREFIX && tar Jcvf mingw-libgnurx-2.5.1.$ARCH.tar.xz include/ lib/ \
 	&& cp -rf include/ lib/ ${MINGW32_SEARCH_PATH} && rm -rf include/ lib/ \
 \
