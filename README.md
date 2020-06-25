@@ -1,7 +1,7 @@
 # mingw-w64-libs
-Common static libs prebuilt by `cgdoc/mingw-w64-multilib:latest`
-## Indexes
-* boost_1_60_0
+Common static libs prebuilt by `cgdoc/mingw-w64-multilib:posix-v1.0`
+## Index
+* boost-1.60.0
 * bzip2-1.0.6 
 * expat-2.2.6
 * file-5.11
@@ -10,15 +10,15 @@ Common static libs prebuilt by `cgdoc/mingw-w64-multilib:latest`
 * libiconv-1.16
 * libogg-1.3.4
 * libvorbis-1.3.6
-* libebml-1.3.9
+* libebml-1.3.10
 * libmatroska-1.5.2
 * libintl-0.20.2 (gettext-0.20.2)
 * mingw-libgnurx-2.5.1
-* nlohmann-json-3.7.3
-* pugixml-1.10
+* nlohmann-json-3.8.0
+* pugixml-1.9
 * xz-5.2.5
 * zlib-1.2.11
-## Location in Image
+## Location in Container
 * i686 version
     * individually packed headers and libs (.i686.tar.xz) - 32-bit:
     

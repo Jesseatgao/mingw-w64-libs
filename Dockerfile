@@ -36,7 +36,7 @@ ENV FMT_VER=6.2.1
 ENV LIBEBML_VER=1.3.10
 ENV LIBMATROSKA_VER=1.5.2
 ENV GETTEXT_VER=0.20.2
-ENV NLOHMANN-JSON_VER=3.8.0
+ENV NLOHMANN_VER=3.8.0
 
 
 COPY Makefile.libgnurx boost-1.60.0.patch gettext-0.20.2.conf.patch $SRC
@@ -59,7 +59,7 @@ RUN cd $SRC \
 	&& curl -L -O https://dl.matroska.org/downloads/libebml/libebml-$LIBEBML_VER.tar.xz \
 	&& curl -L -O https://dl.matroska.org/downloads/libmatroska/libmatroska-$LIBMATROSKA_VER.tar.xz \
 	&& curl -L -O https://ftp.gnu.org/pub/gnu/gettext/gettext-$GETTEXT_VER.tar.gz \
-	&& curl -L -o nlohmann-json-$NLOHMANN-JSON_VER.zip https://github.com/nlohmann/json/releases/download/v$NLOHMANN-JSON_VER/include.zip \
+	&& curl -L -o nlohmann-json-$NLOHMANN_VER.zip https://github.com/nlohmann/json/releases/download/v$NLOHMANN_VER/include.zip \
 \
 	&& /bin/bash -c \
 	'\
@@ -85,7 +85,7 @@ RUN cd $SRC \
 	        patch_name=$(echo $patch|sed -n "s/\(.\+\)\.conf\.patch$/\1/p"); \
 	        [[ -d $patch_name ]] && cd $patch_name && \
 	        git apply -p1 < ../$patch && \
-	        autoreconf -i && \
+	        autoreconf -if && \
 	        cd ..; \
 	    else \
 	        patch_name=$(echo $patch|sed -n "s/\(.\+\)\.patch$/\1/p"); \
@@ -264,11 +264,11 @@ RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
 	&& cd $PREFIX && tar Jcvf libintl-$GETTEXT_VER.$ARCH.tar.xz include/ lib/ \
 	&& rm -rf include/ lib/ \
 \
-	&& cd $SRC/nlohmann-json-$NLOHMANN-JSON_VER \
+	&& cd $SRC/nlohmann-json-$NLOHMANN_VER \
 	## Use native C++ compiler to circumvent Meson's sanity check.
 	&& CXX=g++ AR=ar STRIP=strip CXXFLAGS= LDFLAGS= meson --prefix=$PREFIX --libdir=lib builddir \
 	&& ninja -C builddir install \
-	&& cd $PREFIX && tar Jcvf nlohmann-json-$NLOHMANN-JSON_VER.$ARCH.tar.xz include/ lib/ \
+	&& cd $PREFIX && tar Jcvf nlohmann-json-$NLOHMANN_VER.$ARCH.tar.xz include/ lib/ \
 	&& rm -rf include/ lib/
 
 
@@ -439,11 +439,11 @@ RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
 	&& cd $PREFIX && tar Jcvf libintl-$GETTEXT_VER.$ARCH.tar.xz include/ lib/ \
 	&& rm -rf include/ lib/ \
 \
-	&& cd $SRC/nlohmann-json-$NLOHMANN-JSON_VER \
+	&& cd $SRC/nlohmann-json-$NLOHMANN_VER \
 	## Use native C++ compiler to circumvent Meson's sanity check.
 	&& CXX=g++ AR=ar STRIP=strip CXXFLAGS= LDFLAGS= meson --prefix=$PREFIX --libdir=lib builddir \
 	&& ninja -C builddir install \
-	&& cd $PREFIX && tar Jcvf nlohmann-json-$NLOHMANN-JSON_VER.$ARCH.tar.xz include/ lib/ \
+	&& cd $PREFIX && tar Jcvf nlohmann-json-$NLOHMANN_VER.$ARCH.tar.xz include/ lib/ \
 	&& rm -rf include/ lib/
 	
 
