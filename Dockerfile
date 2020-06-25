@@ -17,52 +17,84 @@ ENV OBJDUMP $MINGW32-objdump
 ENV AS $MINGW32-as
 ENV NM $MINGW32-nm
 
-
 ENV SRC=/opt/_src/
 
 
-COPY Makefile.libgnurx-2.5.1 boost-1.60.0-fixes.patch gettext-0.20.2.patch $SRC
+ENV XZ_VER=5.2.5
+ENV BZIP2_VER=1.0.6
+ENV ZLIB_VER=1.2.11
+ENV EXPAT_VER=2.2.6
+ENV LIBICONV_VER=1.16
+ENV BOOST_VER=1.60.0
+ENV OGG_VER=1.3.4
+ENV VORBIS_VER=1.3.6
+ENV FLAC_VER=1.3.3
+ENV LIBGNURX_VER=2.5.1
+ENV FILE_VER=5.11
+ENV PUGIXML_VER=1.9
+ENV FMT_VER=6.2.1
+ENV LIBEBML_VER=1.3.10
+ENV LIBMATROSKA_VER=1.5.2
+ENV GETTEXT_VER=0.20.2
+ENV NLOHMANN-JSON_VER=3.8.0
+
+
+COPY Makefile.libgnurx boost-1.60.0.patch gettext-0.20.2.conf.patch $SRC
 
 RUN cd $SRC \
 \
-	&& curl -L -O https://sourceforge.net/projects/lzmautils/files/xz-5.2.5.tar.bz2 \
-	&& curl -L -O https://sourceware.org/pub/bzip2/bzip2-1.0.6.tar.gz \
-	&& curl -L -O https://zlib.net/zlib-1.2.11.tar.xz \
-	&& curl -L -O https://sourceforge.net/projects/expat/files/expat/2.2.6/expat-2.2.6.tar.bz2 \
-	&& curl -L -O https://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.16.tar.gz \
-	&& curl -L -O http://mirror.nienbo.com/boost/1.60.0/boost_1_60_0.tar.bz2 \
-	&& curl -L -O https://ftp.osuosl.org/pub/xiph/releases/ogg/libogg-1.3.4.tar.xz \
-	&& curl -L -O https://ftp.osuosl.org/pub/xiph/releases/vorbis/libvorbis-1.3.6.tar.xz \
-	&& curl -L -O https://ftp.osuosl.org/pub/xiph/releases/flac/flac-1.3.3.tar.xz \
-	&& curl -L -o mingw-libgnurx-2.5.1.tar.gz https://sourceforge.net/projects/mingw/files/Other/UserContributed/regex/mingw-regex-2.5.1/mingw-libgnurx-2.5.1-src.tar.gz \
-	&& curl -L -o file-5.11.tar.gz https://github.com/file/file/archive/FILE5_11.tar.gz \
-	&& curl -L -O https://github.com/zeux/pugixml/releases/download/v1.10/pugixml-1.10.tar.gz \
-	&& curl -L -o fmt-6.2.1.tar.gz https://github.com/fmtlib/fmt/archive/6.2.1.tar.gz \
-	&& curl -L -O https://dl.matroska.org/downloads/libebml/libebml-1.3.9.tar.xz \
-	&& curl -L -O https://dl.matroska.org/downloads/libmatroska/libmatroska-1.5.2.tar.xz \
-	&& curl -L -O https://ftp.gnu.org/pub/gnu/gettext/gettext-0.20.2.tar.gz \
-	&& curl -L -o nlohmann-json-3.7.3.zip https://github.com/nlohmann/json/releases/download/v3.7.3/include.zip \
+	&& curl -L -O https://sourceforge.net/projects/lzmautils/files/xz-$XZ_VER.tar.bz2 \
+	&& curl -L -O https://sourceware.org/pub/bzip2/bzip2-$BZIP2_VER.tar.gz \
+	&& curl -L -O https://zlib.net/zlib-$ZLIB_VER.tar.xz \
+	&& curl -L -O https://sourceforge.net/projects/expat/files/expat/$EXPAT_VER/expat-$EXPAT_VER.tar.bz2 \
+	&& curl -L -O https://ftp.gnu.org/pub/gnu/libiconv/libiconv-$LIBICONV_VER.tar.gz \
+	&& curl -L -o boost-$BOOST_VER.tar.bz2 https://sourceforge.net/projects/boost/files/boost/$BOOST_VER/boost_$(echo $BOOST_VER|sed 's/\./_/g').tar.bz2 \
+	&& curl -L -O https://ftp.osuosl.org/pub/xiph/releases/ogg/libogg-$OGG_VER.tar.xz \
+	&& curl -L -O https://ftp.osuosl.org/pub/xiph/releases/vorbis/libvorbis-$VORBIS_VER.tar.xz \
+	&& curl -L -O https://ftp.osuosl.org/pub/xiph/releases/flac/flac-$FLAC_VER.tar.xz \
+	&& curl -L -o mingw-libgnurx-$LIBGNURX_VER.tar.gz https://sourceforge.net/projects/mingw/files/Other/UserContributed/regex/mingw-regex-$LIBGNURX_VER/mingw-libgnurx-$LIBGNURX_VER-src.tar.gz \
+	&& curl -L -o file-$FILE_VER.tar.gz https://github.com/file/file/archive/FILE$(echo $FILE_VER|sed 's/\./_/g').tar.gz \
+	&& curl -L -O https://github.com/zeux/pugixml/releases/download/v$PUGIXML_VER/pugixml-$PUGIXML_VER.tar.gz \
+	&& curl -L -o fmt-$FMT_VER.tar.gz https://github.com/fmtlib/fmt/archive/$FMT_VER.tar.gz \
+	&& curl -L -O https://dl.matroska.org/downloads/libebml/libebml-$LIBEBML_VER.tar.xz \
+	&& curl -L -O https://dl.matroska.org/downloads/libmatroska/libmatroska-$LIBMATROSKA_VER.tar.xz \
+	&& curl -L -O https://ftp.gnu.org/pub/gnu/gettext/gettext-$GETTEXT_VER.tar.gz \
+	&& curl -L -o nlohmann-json-$NLOHMANN-JSON_VER.zip https://github.com/nlohmann/json/releases/download/v$NLOHMANN-JSON_VER/include.zip \
 \
-	&& tar jxvf xz-5.2.5.tar.bz2 \
-	&& tar zxvf bzip2-1.0.6.tar.gz \
-	&& tar Jxvf zlib-1.2.11.tar.xz \
-	&& tar jxvf expat-2.2.6.tar.bz2 \
-	&& tar zxvf libiconv-1.16.tar.gz \
-	&& tar jxvf boost_1_60_0.tar.bz2 \
-	&& tar Jxvf libogg-1.3.4.tar.xz \
-	&& tar Jxvf libvorbis-1.3.6.tar.xz \
-	&& tar Jxvf flac-1.3.3.tar.xz \
-	&& tar zxvf mingw-libgnurx-2.5.1.tar.gz \
-	&& mkdir file-5.11 && tar zxvf file-5.11.tar.gz -C file-5.11 --strip-components=1 \
-	&& tar zxvf pugixml-1.10.tar.gz \
-	&& tar zxvf fmt-6.2.1.tar.gz \
-	&& tar Jxvf libebml-1.3.9.tar.xz \
-	&& tar Jxvf libmatroska-1.5.2.tar.xz \
-	&& tar zxvf gettext-0.20.2.tar.gz \
-	&& unzip nlohmann-json-3.7.3.zip -d nlohmann-json-3.7.3 \
-\
-    && cd $SRC/boost_1_60_0 && git apply -p1 < $SRC/boost-1.60.0-fixes.patch \
-    && cd $SRC/gettext-0.20.2 && git apply -p1 < $SRC/gettext-0.20.2.patch && autoreconf
+	&& /bin/bash -c \
+	'\
+	cd $SRC; \
+	for pkg in *.gz *.xz *.bz2 *.zip; \
+	do \
+	    pkg_name=$(echo $pkg|sed -n "s/\(.\+\)\(\.tar\.gz\|\.tar\.xz\|\.tar\.bz2\|\.zip\)$/\1/p"); \
+	    mkdir -p $pkg_name; \
+	    case $pkg in \
+	        *\.gz) \
+	        tar zxvf $pkg -C $pkg_name --strip-components=1;; \
+	        *\.xz) \
+	        tar Jxvf $pkg -C $pkg_name --strip-components=1;; \
+	        *\.bz2) \
+	        tar jxvf $pkg -C $pkg_name --strip-components=1;; \
+	        *\.zip) \
+	        unzip $pkg -d $pkg_name;; \
+	    esac; \
+	done; \
+	for patch in *.patch; \
+	do \
+	    if [[ $patch =~ \.conf\.patch$ ]]; then \
+	        patch_name=$(echo $patch|sed -n "s/\(.\+\)\.conf\.patch$/\1/p"); \
+	        [[ -d $patch_name ]] && cd $patch_name && \
+	        git apply -p1 < ../$patch && \
+	        autoreconf -i && \
+	        cd ..; \
+	    else \
+	        patch_name=$(echo $patch|sed -n "s/\(.\+\)\.patch$/\1/p"); \
+	        [[ -d $patch_name ]] && cd $patch_name && \
+	        git apply -p1 < ../$patch && \
+	        cd ..; \
+	    fi; \
+	done\
+	'
 
 
 ################### Stage: build the i686 version of the libs ######################
@@ -96,38 +128,38 @@ ARG PREFIX=/opt/mingw32/i686-w64-mingw32
 
 RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
 \
-	&& mkdir -p $BUILDROOT/xz-5.2.5 && cd $BUILDROOT/xz-5.2.5 \
-	&& $SRC/xz-5.2.5/configure --prefix=$PREFIX --host=$HOST --build=$BUILD --enable-static=yes \
+	&& mkdir -p $BUILDROOT/xz-$XZ_VER && cd $BUILDROOT/xz-$XZ_VER \
+	&& $SRC/xz-$XZ_VER/configure --prefix=$PREFIX --host=$HOST --build=$BUILD --enable-static=yes \
 	&& make -j `nproc` && make install \
-	&& cd $PREFIX && tar Jcvf xz-5.2.5.$ARCH.tar.xz include/ lib/ \
+	&& cd $PREFIX && tar Jcvf xz-$XZ_VER.$ARCH.tar.xz include/ lib/ \
 	&& cp -rf include/ lib/ ${MINGW32_SEARCH_PATH} && rm -rf include/ lib/ \
 \
-	&& mkdir -p $BUILDROOT/bzip2-1.0.6 && cd $BUILDROOT/bzip2-1.0.6 \
-	&& sed -i 's/sys\\stat\.h/sys\/stat\.h/' $SRC/bzip2-1.0.6/bzip2.c \
-	&& make -C $SRC/bzip2-1.0.6 PREFIX=$PREFIX CC=$CC AR=$AR RANLIB=$RANLIB CFLAGS="${CFLAGS} -Wall -Winline -O2 -D_FILE_OFFSET_BITS=64" libbz2.a \
-	&& install -d $PREFIX/include $PREFIX/lib && install -m644 $SRC/bzip2-1.0.6/bzlib.h $PREFIX/include/ && install -m644 $SRC/bzip2-1.0.6/libbz2.a $PREFIX/lib/ \
-	&& cd $PREFIX && tar Jcvf bzip2-1.0.6.$ARCH.tar.xz include/ lib/ \
+	&& mkdir -p $BUILDROOT/bzip2-$BZIP2_VER && cd $BUILDROOT/bzip2-$BZIP2_VER \
+	&& sed -i 's/sys\\stat\.h/sys\/stat\.h/' $SRC/bzip2-$BZIP2_VER/bzip2.c \
+	&& make -C $SRC/bzip2-$BZIP2_VER PREFIX=$PREFIX CC=$CC AR=$AR RANLIB=$RANLIB CFLAGS="${CFLAGS} -Wall -Winline -O2 -D_FILE_OFFSET_BITS=64" libbz2.a \
+	&& install -d $PREFIX/include $PREFIX/lib && install -m644 $SRC/bzip2-$BZIP2_VER/bzlib.h $PREFIX/include/ && install -m644 $SRC/bzip2-$BZIP2_VER/libbz2.a $PREFIX/lib/ \
+	&& cd $PREFIX && tar Jcvf bzip2-$BZIP2_VER.$ARCH.tar.xz include/ lib/ \
 	&& cp -rf include/ lib/ ${MINGW32_SEARCH_PATH} && rm -rf include/ lib/ \
 \
-	&& mkdir -p $BUILDROOT/zlib-1.2.11 && cd $BUILDROOT/zlib-1.2.11 \
-	&& $SRC/zlib-1.2.11/configure --prefix=$PREFIX --static \
+	&& mkdir -p $BUILDROOT/zlib-$ZLIB_VER && cd $BUILDROOT/zlib-$ZLIB_VER \
+	&& $SRC/zlib-$ZLIB_VER/configure --prefix=$PREFIX --static \
 	&& make -j `nproc` && make install \
-	&& cd $PREFIX && tar Jcvf zlib-1.2.11.$ARCH.tar.xz include/ lib/ \
+	&& cd $PREFIX && tar Jcvf zlib-$ZLIB_VER.$ARCH.tar.xz include/ lib/ \
 	&& cp -rf include/ lib/ ${MINGW32_SEARCH_PATH} && rm -rf include/ lib/ \
 \
-	&& mkdir -p $BUILDROOT/expat-2.2.6 && cd $BUILDROOT/expat-2.2.6 \
-	&& $SRC/expat-2.2.6/configure --prefix=$PREFIX --host=$HOST --enable-static=yes --enable-shared=no \
+	&& mkdir -p $BUILDROOT/expat-$EXPAT_VER && cd $BUILDROOT/expat-$EXPAT_VER \
+	&& $SRC/expat-$EXPAT_VER/configure --prefix=$PREFIX --host=$HOST --enable-static=yes --enable-shared=no \
 	&& make -j `nproc` && make install \
-	&& cd $PREFIX && tar Jcvf expat-2.2.6.$ARCH.tar.xz include/ lib/ \
+	&& cd $PREFIX && tar Jcvf expat-$EXPAT_VER.$ARCH.tar.xz include/ lib/ \
 	&& cp -rf include/ lib/ ${MINGW32_SEARCH_PATH} && rm -rf include/ lib/ \
 \
-	&& mkdir -p $BUILDROOT/libiconv-1.16 && cd $BUILDROOT/libiconv-1.16 \
-	&& $SRC/libiconv-1.16/configure --prefix=$PREFIX --host=$HOST --build=$BUILD --enable-static=yes --enable-shared=yes --disable-nls \
+	&& mkdir -p $BUILDROOT/libiconv-$LIBICONV_VER && cd $BUILDROOT/libiconv-$LIBICONV_VER \
+	&& $SRC/libiconv-$LIBICONV_VER/configure --prefix=$PREFIX --host=$HOST --build=$BUILD --enable-static=yes --enable-shared=yes --disable-nls \
 	&& make -j `nproc` && make install \
-	&& cd $PREFIX && tar Jcvf libiconv-1.16.$ARCH.tar.xz include/ lib/ \
+	&& cd $PREFIX && tar Jcvf libiconv-$LIBICONV_VER.$ARCH.tar.xz include/ lib/ \
 	&& cp -rf include/ lib/ ${MINGW32_SEARCH_PATH} && rm -rf include/ lib/ \
 \
-	&& cd $SRC/boost_1_60_0 \
+	&& cd $SRC/boost-$BOOST_VER \
 	&& echo "using gcc : mingw : ${MINGW32}-g++ : <rc>\"$WINDRES\" <archiver>${MINGW32}-ar <ranlib>${MINGW32}-ranlib <cxxflags>\"${CXXFLAGS}\" <linkflags>\"${LDFLAGS}\" ;" > user-config.jam \
 	&& cd tools/build && CXX=g++ CXXFLAGS= LDFLAGS= ./bootstrap.sh \
 	&& cd ../../ && ./tools/build/b2 \
@@ -136,7 +168,7 @@ RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
         -j `nproc` \
         --ignore-site-config \
         --user-config=user-config.jam \
-		-sBOOST_ROOT=$SRC/boost_1_60_0 \
+		-sBOOST_ROOT=$SRC/boost-$BOOST_VER \
         abi=ms \
         address-model=$([[ "$HOST" =~ "x86_64" ]] && echo "64" || echo "32") \
         architecture=x86 \
@@ -168,75 +200,75 @@ RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
 		-sLZMA_LIBPATH=${MINGW32_SEARCH_PATH}/lib \
 		-sICONV_PATH=${MINGW32_SEARCH_PATH} \
         install \
-	&& cd $PREFIX && tar Jcvf boost_1_60_0.$ARCH.tar.xz include/ lib/ \
+	&& cd $PREFIX && tar Jcvf boost-$BOOST_VER.$ARCH.tar.xz include/ lib/ \
 	&& rm -rf include/ lib/ \
 \
-	&& mkdir -p $BUILDROOT/libogg-1.3.4 && cd $BUILDROOT/libogg-1.3.4 \
-	&& $SRC/libogg-1.3.4/configure --prefix=$PREFIX --host=$HOST --enable-static \
+	&& mkdir -p $BUILDROOT/libogg-$OGG_VER && cd $BUILDROOT/libogg-$OGG_VER \
+	&& $SRC/libogg-$OGG_VER/configure --prefix=$PREFIX --host=$HOST --enable-static \
 	&& make -j `nproc` && make install \
-	&& cd $PREFIX && tar Jcvf libogg-1.3.4.$ARCH.tar.xz include/ lib/ \
+	&& cd $PREFIX && tar Jcvf libogg-$OGG_VER.$ARCH.tar.xz include/ lib/ \
 	&& cp -rf include/ lib/ ${MINGW32_SEARCH_PATH} && rm -rf include/ lib/ \
 \
-	&& mkdir -p $BUILDROOT/libvorbis-1.3.6 && cd $BUILDROOT/libvorbis-1.3.6 \
-	&& $SRC/libvorbis-1.3.6/configure --prefix=$PREFIX --host=$HOST --enable-static \
+	&& mkdir -p $BUILDROOT/libvorbis-$VORBIS_VER && cd $BUILDROOT/libvorbis-$VORBIS_VER \
+	&& $SRC/libvorbis-$VORBIS_VER/configure --prefix=$PREFIX --host=$HOST --enable-static \
 	&& make -j `nproc` && make install \
-	&& cd $PREFIX && tar Jcvf libvorbis-1.3.6.$ARCH.tar.xz include/ lib/ \
+	&& cd $PREFIX && tar Jcvf libvorbis-$VORBIS_VER.$ARCH.tar.xz include/ lib/ \
 	&& rm -rf include/ lib/ \
 \
-	&& mkdir -p $BUILDROOT/flac-1.3.3 && cd $BUILDROOT/flac-1.3.3 \
-	&& $SRC/flac-1.3.3/configure --prefix=$PREFIX --host=$HOST --enable-static=yes --with-ogg=${MINGW32_SEARCH_PATH} \
+	&& mkdir -p $BUILDROOT/flac-$FLAC_VER && cd $BUILDROOT/flac-$FLAC_VER \
+	&& $SRC/flac-$FLAC_VER/configure --prefix=$PREFIX --host=$HOST --enable-static=yes --with-ogg=${MINGW32_SEARCH_PATH} \
 	&& make -j `nproc` && make install \
-	&& cd $PREFIX && tar Jcvf flac-1.3.3.$ARCH.tar.xz include/ lib/ \
+	&& cd $PREFIX && tar Jcvf flac-$FLAC_VER.$ARCH.tar.xz include/ lib/ \
 	&& rm -rf include/ lib/ \
 \
-	&& cd $SRC/mingw-libgnurx-2.5.1 \
-	&& cp -f $SRC/Makefile.libgnurx-2.5.1 . \
+	&& cd $SRC/mingw-libgnurx-$LIBGNURX_VER \
+	&& cp -f $SRC/Makefile.libgnurx . \
 	&& ./configure --prefix=$PREFIX --host=$HOST --build=$BUILD \
-	&& make -f Makefile.libgnurx-2.5.1 -j `nproc` install-static MINGW32=$MINGW32 \
-	&& cd $PREFIX && tar Jcvf mingw-libgnurx-2.5.1.$ARCH.tar.xz include/ lib/ \
+	&& make -f Makefile.libgnurx -j `nproc` install-static MINGW32=$MINGW32 \
+	&& cd $PREFIX && tar Jcvf mingw-libgnurx-$LIBGNURX_VER.$ARCH.tar.xz include/ lib/ \
 	&& cp -rf include/ lib/ ${MINGW32_SEARCH_PATH} && rm -rf include/ lib/ \
 \
-	&& mkdir -p $BUILDROOT/file-5.11 && cd $BUILDROOT/file-5.11 \
-	&& autoreconf -f -i $SRC/file-5.11 && CFLAGS="${CFLAGS} -DHAVE_PREAD" LDFLAGS="${LDFLAGS}" $SRC/file-5.11/configure --prefix=$PREFIX --host=$HOST --build=$BUILD --enable-static=yes --disable-silent-rules \
+	&& mkdir -p $BUILDROOT/file-$FILE_VER && cd $BUILDROOT/file-$FILE_VER \
+	&& autoreconf -f -i $SRC/file-$FILE_VER && CFLAGS="${CFLAGS} -DHAVE_PREAD" LDFLAGS="${LDFLAGS}" $SRC/file-$FILE_VER/configure --prefix=$PREFIX --host=$HOST --build=$BUILD --enable-static=yes --disable-silent-rules \
 	&& make -j `nproc` && make install \
-	&& cd $PREFIX && tar Jcvf file-5.11.$ARCH.tar.xz include/ lib/ \
+	&& cd $PREFIX && tar Jcvf file-$FILE_VER.$ARCH.tar.xz include/ lib/ \
 	&& rm -rf include/ lib/ \
 \
-	&& mkdir -p $BUILDROOT/pugixml-1.10 && cd $BUILDROOT/pugixml-1.10 \
-	&& cmake -G "Unix Makefiles" -DCMAKE_SYSTEM_NAME=Windows -DCMAKE_INSTALL_PREFIX=$PREFIX $SRC/pugixml-1.10 \
+	&& mkdir -p $BUILDROOT/pugixml-$PUGIXML_VER && cd $BUILDROOT/pugixml-$PUGIXML_VER \
+	&& cmake -G "Unix Makefiles" -DCMAKE_SYSTEM_NAME=Windows -DCMAKE_INSTALL_PREFIX=$PREFIX $SRC/pugixml-$PUGIXML_VER \
 	&& make -j `nproc` && make install \
-	&& cd $PREFIX && tar Jcvf pugixml-1.10.$ARCH.tar.xz include/ lib/ \
+	&& cd $PREFIX && tar Jcvf pugixml-$PUGIXML_VER.$ARCH.tar.xz include/ lib/ \
 	&& rm -rf include/ lib/ \
 \
-	&& mkdir -p $BUILDROOT/fmt-6.2.1 && cd $BUILDROOT/fmt-6.2.1 \
-	&& cmake -G "Unix Makefiles" -DCMAKE_SYSTEM_NAME=Windows -DCMAKE_INSTALL_PREFIX=$PREFIX -DFMT_DOC=OFF -DFMT_TEST=OFF $SRC/fmt-6.2.1 \
+	&& mkdir -p $BUILDROOT/fmt-$FMT_VER && cd $BUILDROOT/fmt-$FMT_VER \
+	&& cmake -G "Unix Makefiles" -DCMAKE_SYSTEM_NAME=Windows -DCMAKE_INSTALL_PREFIX=$PREFIX -DFMT_DOC=OFF -DFMT_TEST=OFF $SRC/fmt-$FMT_VER \
 	&& make -j `nproc` && make install \
-	&& cd $PREFIX && tar Jcvf fmt-6.2.1.$ARCH.tar.xz include/ lib/ \
+	&& cd $PREFIX && tar Jcvf fmt-$FMT_VER.$ARCH.tar.xz include/ lib/ \
 	&& rm -rf include/ lib/ \
 \
-	&& mkdir -p $BUILDROOT/libebml-1.3.9 && cd $BUILDROOT/libebml-1.3.9 \
-	&& cmake -G "Unix Makefiles" -DCMAKE_SYSTEM_NAME=Windows -DCMAKE_INSTALL_PREFIX=$PREFIX $SRC/libebml-1.3.9 \
+	&& mkdir -p $BUILDROOT/libebml-$LIBEBML_VER && cd $BUILDROOT/libebml-$LIBEBML_VER \
+	&& cmake -G "Unix Makefiles" -DCMAKE_SYSTEM_NAME=Windows -DCMAKE_INSTALL_PREFIX=$PREFIX $SRC/libebml-$LIBEBML_VER \
 	&& make -j `nproc` && make install \
-	&& cd $PREFIX && tar Jcvf libebml-1.3.9.$ARCH.tar.xz include/ lib/ \
+	&& cd $PREFIX && tar Jcvf libebml-$LIBEBML_VER.$ARCH.tar.xz include/ lib/ \
 	&& cp -rf include/ lib/ ${MINGW32_SEARCH_PATH} && rm -rf include/ lib/ \
 \
-	&& mkdir -p $BUILDROOT/libmatroska-1.5.2 && cd $BUILDROOT/libmatroska-1.5.2 \
-	&& cmake -G "Unix Makefiles" -DCMAKE_SYSTEM_NAME=Windows -DCMAKE_INSTALL_PREFIX=$PREFIX  -DCMAKE_PREFIX_PATH=${MINGW32_SEARCH_PATH} $SRC/libmatroska-1.5.2 \
+	&& mkdir -p $BUILDROOT/libmatroska-$LIBMATROSKA_VER && cd $BUILDROOT/libmatroska-$LIBMATROSKA_VER \
+	&& cmake -G "Unix Makefiles" -DCMAKE_SYSTEM_NAME=Windows -DCMAKE_INSTALL_PREFIX=$PREFIX  -DCMAKE_PREFIX_PATH=${MINGW32_SEARCH_PATH} $SRC/libmatroska-$LIBMATROSKA_VER \
 	&& make -j `nproc` && make install \
-	&& cd $PREFIX && tar Jcvf libmatroska-1.5.2.$ARCH.tar.xz include/ lib/ \
+	&& cd $PREFIX && tar Jcvf libmatroska-$LIBMATROSKA_VER.$ARCH.tar.xz include/ lib/ \
 	&& rm -rf include/ lib/ \
 \
-	&& mkdir -p $BUILDROOT/gettext-0.20.2 && cd $BUILDROOT/gettext-0.20.2 \
-	&& $SRC/gettext-0.20.2/gettext-runtime/configure --prefix=$PREFIX --host=$HOST --build=$BUILD --enable-static=yes --enable-threads=windows \
+	&& mkdir -p $BUILDROOT/gettext-$GETTEXT_VER && cd $BUILDROOT/gettext-$GETTEXT_VER \
+	&& $SRC/gettext-$GETTEXT_VER/gettext-runtime/configure --prefix=$PREFIX --host=$HOST --build=$BUILD --enable-static=yes --enable-threads=windows \
 	&& make -C intl -j `nproc` && make -C intl install \
-	&& cd $PREFIX && tar Jcvf libintl-0.20.2.$ARCH.tar.xz include/ lib/ \
+	&& cd $PREFIX && tar Jcvf libintl-$GETTEXT_VER.$ARCH.tar.xz include/ lib/ \
 	&& rm -rf include/ lib/ \
 \
-	&& cd $SRC/nlohmann-json-3.7.3 \
+	&& cd $SRC/nlohmann-json-$NLOHMANN-JSON_VER \
 	## Use native C++ compiler to circumvent Meson's sanity check.
 	&& CXX=g++ AR=ar STRIP=strip CXXFLAGS= LDFLAGS= meson --prefix=$PREFIX --libdir=lib builddir \
 	&& ninja -C builddir install \
-	&& cd $PREFIX && tar Jcvf nlohmann-json-3.7.3.$ARCH.tar.xz include/ lib/ \
+	&& cd $PREFIX && tar Jcvf nlohmann-json-$NLOHMANN-JSON_VER.$ARCH.tar.xz include/ lib/ \
 	&& rm -rf include/ lib/
 
 
@@ -271,38 +303,38 @@ ARG PREFIX=/opt/mingw32/x86_64-w64-mingw32
 
 RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
 \
-	&& mkdir -p $BUILDROOT/xz-5.2.5 && cd $BUILDROOT/xz-5.2.5 \
-	&& $SRC/xz-5.2.5/configure --prefix=$PREFIX --host=$HOST --build=$BUILD --enable-static=yes \
+	&& mkdir -p $BUILDROOT/xz-$XZ_VER && cd $BUILDROOT/xz-$XZ_VER \
+	&& $SRC/xz-$XZ_VER/configure --prefix=$PREFIX --host=$HOST --build=$BUILD --enable-static=yes \
 	&& make -j `nproc` && make install \
-	&& cd $PREFIX && tar Jcvf xz-5.2.5.$ARCH.tar.xz include/ lib/ \
+	&& cd $PREFIX && tar Jcvf xz-$XZ_VER.$ARCH.tar.xz include/ lib/ \
 	&& cp -rf include/ lib/ ${MINGW32_SEARCH_PATH} && rm -rf include/ lib/ \
 \
-	&& mkdir -p $BUILDROOT/bzip2-1.0.6 && cd $BUILDROOT/bzip2-1.0.6 \
-	&& sed -i 's/sys\\stat\.h/sys\/stat\.h/' $SRC/bzip2-1.0.6/bzip2.c \
-	&& make -C $SRC/bzip2-1.0.6 PREFIX=$PREFIX CC=$CC AR=$AR RANLIB=$RANLIB CFLAGS="${CFLAGS} -Wall -Winline -O2 -D_FILE_OFFSET_BITS=64" libbz2.a \
-	&& install -d $PREFIX/include $PREFIX/lib && install -m644 $SRC/bzip2-1.0.6/bzlib.h $PREFIX/include/ && install -m644 $SRC/bzip2-1.0.6/libbz2.a $PREFIX/lib/ \
-	&& cd $PREFIX && tar Jcvf bzip2-1.0.6.$ARCH.tar.xz include/ lib/ \
+	&& mkdir -p $BUILDROOT/bzip2-$BZIP2_VER && cd $BUILDROOT/bzip2-$BZIP2_VER \
+	&& sed -i 's/sys\\stat\.h/sys\/stat\.h/' $SRC/bzip2-$BZIP2_VER/bzip2.c \
+	&& make -C $SRC/bzip2-$BZIP2_VER PREFIX=$PREFIX CC=$CC AR=$AR RANLIB=$RANLIB CFLAGS="${CFLAGS} -Wall -Winline -O2 -D_FILE_OFFSET_BITS=64" libbz2.a \
+	&& install -d $PREFIX/include $PREFIX/lib && install -m644 $SRC/bzip2-$BZIP2_VER/bzlib.h $PREFIX/include/ && install -m644 $SRC/bzip2-$BZIP2_VER/libbz2.a $PREFIX/lib/ \
+	&& cd $PREFIX && tar Jcvf bzip2-$BZIP2_VER.$ARCH.tar.xz include/ lib/ \
 	&& cp -rf include/ lib/ ${MINGW32_SEARCH_PATH} && rm -rf include/ lib/ \
 \
-	&& mkdir -p $BUILDROOT/zlib-1.2.11 && cd $BUILDROOT/zlib-1.2.11 \
-	&& $SRC/zlib-1.2.11/configure --prefix=$PREFIX --static \
+	&& mkdir -p $BUILDROOT/zlib-$ZLIB_VER && cd $BUILDROOT/zlib-$ZLIB_VER \
+	&& $SRC/zlib-$ZLIB_VER/configure --prefix=$PREFIX --static \
 	&& make -j `nproc` && make install \
-	&& cd $PREFIX && tar Jcvf zlib-1.2.11.$ARCH.tar.xz include/ lib/ \
+	&& cd $PREFIX && tar Jcvf zlib-$ZLIB_VER.$ARCH.tar.xz include/ lib/ \
 	&& cp -rf include/ lib/ ${MINGW32_SEARCH_PATH} && rm -rf include/ lib/ \
 \
-	&& mkdir -p $BUILDROOT/expat-2.2.6 && cd $BUILDROOT/expat-2.2.6 \
-	&& $SRC/expat-2.2.6/configure --prefix=$PREFIX --host=$HOST --enable-static=yes --enable-shared=no \
+	&& mkdir -p $BUILDROOT/expat-$EXPAT_VER && cd $BUILDROOT/expat-$EXPAT_VER \
+	&& $SRC/expat-$EXPAT_VER/configure --prefix=$PREFIX --host=$HOST --enable-static=yes --enable-shared=no \
 	&& make -j `nproc` && make install \
-	&& cd $PREFIX && tar Jcvf expat-2.2.6.$ARCH.tar.xz include/ lib/ \
+	&& cd $PREFIX && tar Jcvf expat-$EXPAT_VER.$ARCH.tar.xz include/ lib/ \
 	&& cp -rf include/ lib/ ${MINGW32_SEARCH_PATH} && rm -rf include/ lib/ \
 \
-	&& mkdir -p $BUILDROOT/libiconv-1.16 && cd $BUILDROOT/libiconv-1.16 \
-	&& $SRC/libiconv-1.16/configure --prefix=$PREFIX --host=$HOST --build=$BUILD --enable-static=yes --enable-shared=yes --disable-nls \
+	&& mkdir -p $BUILDROOT/libiconv-$LIBICONV_VER && cd $BUILDROOT/libiconv-$LIBICONV_VER \
+	&& $SRC/libiconv-$LIBICONV_VER/configure --prefix=$PREFIX --host=$HOST --build=$BUILD --enable-static=yes --enable-shared=yes --disable-nls \
 	&& make -j `nproc` && make install \
-	&& cd $PREFIX && tar Jcvf libiconv-1.16.$ARCH.tar.xz include/ lib/ \
+	&& cd $PREFIX && tar Jcvf libiconv-$LIBICONV_VER.$ARCH.tar.xz include/ lib/ \
 	&& cp -rf include/ lib/ ${MINGW32_SEARCH_PATH} && rm -rf include/ lib/ \
 \
-	&& cd $SRC/boost_1_60_0 \
+	&& cd $SRC/boost-$BOOST_VER \
 	&& echo "using gcc : mingw : ${MINGW32}-g++ : <rc>\"$WINDRES\" <archiver>${MINGW32}-ar <ranlib>${MINGW32}-ranlib <cxxflags>\"${CXXFLAGS}\" <linkflags>\"${LDFLAGS}\" ;" > user-config.jam \
 	&& cd tools/build && CXX=g++ CXXFLAGS= LDFLAGS= ./bootstrap.sh \
 	&& cd ../../ && ./tools/build/b2 \
@@ -311,7 +343,7 @@ RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
         -j `nproc` \
         --ignore-site-config \
         --user-config=user-config.jam \
-		-sBOOST_ROOT=$SRC/boost_1_60_0 \
+		-sBOOST_ROOT=$SRC/boost-$BOOST_VER \
         abi=ms \
         address-model=$([[ "$HOST" =~ "x86_64" ]] && echo "64" || echo "32") \
         architecture=x86 \
@@ -343,75 +375,75 @@ RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
 		-sLZMA_LIBPATH=${MINGW32_SEARCH_PATH}/lib \
 		-sICONV_PATH=${MINGW32_SEARCH_PATH} \
         install \
-	&& cd $PREFIX && tar Jcvf boost_1_60_0.$ARCH.tar.xz include/ lib/ \
+	&& cd $PREFIX && tar Jcvf boost-$BOOST_VER.$ARCH.tar.xz include/ lib/ \
 	&& rm -rf include/ lib/ \
 \
-	&& mkdir -p $BUILDROOT/libogg-1.3.4 && cd $BUILDROOT/libogg-1.3.4 \
-	&& $SRC/libogg-1.3.4/configure --prefix=$PREFIX --host=$HOST --enable-static \
+	&& mkdir -p $BUILDROOT/libogg-$OGG_VER && cd $BUILDROOT/libogg-$OGG_VER \
+	&& $SRC/libogg-$OGG_VER/configure --prefix=$PREFIX --host=$HOST --enable-static \
 	&& make -j `nproc` && make install \
-	&& cd $PREFIX && tar Jcvf libogg-1.3.4.$ARCH.tar.xz include/ lib/ \
+	&& cd $PREFIX && tar Jcvf libogg-$OGG_VER.$ARCH.tar.xz include/ lib/ \
 	&& cp -rf include/ lib/ ${MINGW32_SEARCH_PATH} && rm -rf include/ lib/ \
 \
-	&& mkdir -p $BUILDROOT/libvorbis-1.3.6 && cd $BUILDROOT/libvorbis-1.3.6 \
-	&& $SRC/libvorbis-1.3.6/configure --prefix=$PREFIX --host=$HOST --enable-static \
+	&& mkdir -p $BUILDROOT/libvorbis-$VORBIS_VER && cd $BUILDROOT/libvorbis-$VORBIS_VER \
+	&& $SRC/libvorbis-$VORBIS_VER/configure --prefix=$PREFIX --host=$HOST --enable-static \
 	&& make -j `nproc` && make install \
-	&& cd $PREFIX && tar Jcvf libvorbis-1.3.6.$ARCH.tar.xz include/ lib/ \
+	&& cd $PREFIX && tar Jcvf libvorbis-$VORBIS_VER.$ARCH.tar.xz include/ lib/ \
 	&& rm -rf include/ lib/ \
 \
-	&& mkdir -p $BUILDROOT/flac-1.3.3 && cd $BUILDROOT/flac-1.3.3 \
-	&& $SRC/flac-1.3.3/configure --prefix=$PREFIX --host=$HOST --enable-static=yes --with-ogg=${MINGW32_SEARCH_PATH} \
+	&& mkdir -p $BUILDROOT/flac-$FLAC_VER && cd $BUILDROOT/flac-$FLAC_VER \
+	&& $SRC/flac-$FLAC_VER/configure --prefix=$PREFIX --host=$HOST --enable-static=yes --with-ogg=${MINGW32_SEARCH_PATH} \
 	&& make -j `nproc` && make install \
-	&& cd $PREFIX && tar Jcvf flac-1.3.3.$ARCH.tar.xz include/ lib/ \
+	&& cd $PREFIX && tar Jcvf flac-$FLAC_VER.$ARCH.tar.xz include/ lib/ \
 	&& rm -rf include/ lib/ \
 \
-	&& cd $SRC/mingw-libgnurx-2.5.1 \
-	&& cp -f $SRC/Makefile.libgnurx-2.5.1 . \
+	&& cd $SRC/mingw-libgnurx-$LIBGNURX_VER \
+	&& cp -f $SRC/Makefile.libgnurx . \
 	&& ./configure --prefix=$PREFIX --host=$HOST --build=$BUILD \
-	&& make -f Makefile.libgnurx-2.5.1 -j `nproc` install-static MINGW32=$MINGW32 \
-	&& cd $PREFIX && tar Jcvf mingw-libgnurx-2.5.1.$ARCH.tar.xz include/ lib/ \
+	&& make -f Makefile.libgnurx -j `nproc` install-static MINGW32=$MINGW32 \
+	&& cd $PREFIX && tar Jcvf mingw-libgnurx-$LIBGNURX_VER.$ARCH.tar.xz include/ lib/ \
 	&& cp -rf include/ lib/ ${MINGW32_SEARCH_PATH} && rm -rf include/ lib/ \
 \
-	&& mkdir -p $BUILDROOT/file-5.11 && cd $BUILDROOT/file-5.11 \
-	&& autoreconf -f -i $SRC/file-5.11 && CFLAGS="${CFLAGS} -DHAVE_PREAD" LDFLAGS="${LDFLAGS}" $SRC/file-5.11/configure --prefix=$PREFIX --host=$HOST --build=$BUILD --enable-static=yes --disable-silent-rules \
+	&& mkdir -p $BUILDROOT/file-$FILE_VER && cd $BUILDROOT/file-$FILE_VER \
+	&& autoreconf -f -i $SRC/file-$FILE_VER && CFLAGS="${CFLAGS} -DHAVE_PREAD" LDFLAGS="${LDFLAGS}" $SRC/file-$FILE_VER/configure --prefix=$PREFIX --host=$HOST --build=$BUILD --enable-static=yes --disable-silent-rules \
 	&& make -j `nproc` && make install \
-	&& cd $PREFIX && tar Jcvf file-5.11.$ARCH.tar.xz include/ lib/ \
+	&& cd $PREFIX && tar Jcvf file-$FILE_VER.$ARCH.tar.xz include/ lib/ \
 	&& rm -rf include/ lib/ \
 \
-	&& mkdir -p $BUILDROOT/pugixml-1.10 && cd $BUILDROOT/pugixml-1.10 \
-	&& cmake -G "Unix Makefiles" -DCMAKE_SYSTEM_NAME=Windows -DCMAKE_INSTALL_PREFIX=$PREFIX $SRC/pugixml-1.10 \
+	&& mkdir -p $BUILDROOT/pugixml-$PUGIXML_VER && cd $BUILDROOT/pugixml-$PUGIXML_VER \
+	&& cmake -G "Unix Makefiles" -DCMAKE_SYSTEM_NAME=Windows -DCMAKE_INSTALL_PREFIX=$PREFIX $SRC/pugixml-$PUGIXML_VER \
 	&& make -j `nproc` && make install \
-	&& cd $PREFIX && tar Jcvf pugixml-1.10.$ARCH.tar.xz include/ lib/ \
+	&& cd $PREFIX && tar Jcvf pugixml-$PUGIXML_VER.$ARCH.tar.xz include/ lib/ \
 	&& rm -rf include/ lib/ \
 \
-	&& mkdir -p $BUILDROOT/fmt-6.2.1 && cd $BUILDROOT/fmt-6.2.1 \
-	&& cmake -G "Unix Makefiles" -DCMAKE_SYSTEM_NAME=Windows -DCMAKE_INSTALL_PREFIX=$PREFIX -DFMT_DOC=OFF -DFMT_TEST=OFF $SRC/fmt-6.2.1 \
+	&& mkdir -p $BUILDROOT/fmt-$FMT_VER && cd $BUILDROOT/fmt-$FMT_VER \
+	&& cmake -G "Unix Makefiles" -DCMAKE_SYSTEM_NAME=Windows -DCMAKE_INSTALL_PREFIX=$PREFIX -DFMT_DOC=OFF -DFMT_TEST=OFF $SRC/fmt-$FMT_VER \
 	&& make -j `nproc` && make install \
-	&& cd $PREFIX && tar Jcvf fmt-6.2.1.$ARCH.tar.xz include/ lib/ \
+	&& cd $PREFIX && tar Jcvf fmt-$FMT_VER.$ARCH.tar.xz include/ lib/ \
 	&& rm -rf include/ lib/ \
 \
-	&& mkdir -p $BUILDROOT/libebml-1.3.9 && cd $BUILDROOT/libebml-1.3.9 \
-	&& cmake -G "Unix Makefiles" -DCMAKE_SYSTEM_NAME=Windows -DCMAKE_INSTALL_PREFIX=$PREFIX $SRC/libebml-1.3.9 \
+	&& mkdir -p $BUILDROOT/libebml-$LIBEBML_VER && cd $BUILDROOT/libebml-$LIBEBML_VER \
+	&& cmake -G "Unix Makefiles" -DCMAKE_SYSTEM_NAME=Windows -DCMAKE_INSTALL_PREFIX=$PREFIX $SRC/libebml-$LIBEBML_VER \
 	&& make -j `nproc` && make install \
-	&& cd $PREFIX && tar Jcvf libebml-1.3.9.$ARCH.tar.xz include/ lib/ \
+	&& cd $PREFIX && tar Jcvf libebml-$LIBEBML_VER.$ARCH.tar.xz include/ lib/ \
 	&& cp -rf include/ lib/ ${MINGW32_SEARCH_PATH} && rm -rf include/ lib/ \
 \
-	&& mkdir -p $BUILDROOT/libmatroska-1.5.2 && cd $BUILDROOT/libmatroska-1.5.2 \
-	&& cmake -G "Unix Makefiles" -DCMAKE_SYSTEM_NAME=Windows -DCMAKE_INSTALL_PREFIX=$PREFIX  -DCMAKE_PREFIX_PATH=${MINGW32_SEARCH_PATH} $SRC/libmatroska-1.5.2 \
+	&& mkdir -p $BUILDROOT/libmatroska-$LIBMATROSKA_VER && cd $BUILDROOT/libmatroska-$LIBMATROSKA_VER \
+	&& cmake -G "Unix Makefiles" -DCMAKE_SYSTEM_NAME=Windows -DCMAKE_INSTALL_PREFIX=$PREFIX  -DCMAKE_PREFIX_PATH=${MINGW32_SEARCH_PATH} $SRC/libmatroska-$LIBMATROSKA_VER \
 	&& make -j `nproc` && make install \
-	&& cd $PREFIX && tar Jcvf libmatroska-1.5.2.$ARCH.tar.xz include/ lib/ \
+	&& cd $PREFIX && tar Jcvf libmatroska-$LIBMATROSKA_VER.$ARCH.tar.xz include/ lib/ \
 	&& rm -rf include/ lib/ \
 \
-	&& mkdir -p $BUILDROOT/gettext-0.20.2 && cd $BUILDROOT/gettext-0.20.2 \
-	&& $SRC/gettext-0.20.2/gettext-runtime/configure --prefix=$PREFIX --host=$HOST --build=$BUILD --enable-static=yes --enable-threads=windows \
+	&& mkdir -p $BUILDROOT/gettext-$GETTEXT_VER && cd $BUILDROOT/gettext-$GETTEXT_VER \
+	&& $SRC/gettext-$GETTEXT_VER/gettext-runtime/configure --prefix=$PREFIX --host=$HOST --build=$BUILD --enable-static=yes --enable-threads=windows \
 	&& make -C intl -j `nproc` && make -C intl install \
-	&& cd $PREFIX && tar Jcvf libintl-0.20.2.$ARCH.tar.xz include/ lib/ \
+	&& cd $PREFIX && tar Jcvf libintl-$GETTEXT_VER.$ARCH.tar.xz include/ lib/ \
 	&& rm -rf include/ lib/ \
 \
-	&& cd $SRC/nlohmann-json-3.7.3 \
+	&& cd $SRC/nlohmann-json-$NLOHMANN-JSON_VER \
 	## Use native C++ compiler to circumvent Meson's sanity check.
 	&& CXX=g++ AR=ar STRIP=strip CXXFLAGS= LDFLAGS= meson --prefix=$PREFIX --libdir=lib builddir \
 	&& ninja -C builddir install \
-	&& cd $PREFIX && tar Jcvf nlohmann-json-3.7.3.$ARCH.tar.xz include/ lib/ \
+	&& cd $PREFIX && tar Jcvf nlohmann-json-$NLOHMANN-JSON_VER.$ARCH.tar.xz include/ lib/ \
 	&& rm -rf include/ lib/
 	
 
