@@ -103,9 +103,9 @@ FROM builder AS build_i686
 ARG HOST=i686-w64-mingw32
 ARG ARCH=i686
 
-ARG CFLAGS="-m32"
-ARG CXXFLAGS="-m32"
-ARG LDFLAGS="-m32"
+ARG CFLAGS="-m32 -mno-ms-bitfields -DWINVER=0x0601 -D_WIN32_WINNT=0x0601"
+ARG CXXFLAGS="-m32 -mno-ms-bitfields -DWINVER=0x0601 -D_WIN32_WINNT=0x0601"
+ARG LDFLAGS="-m32 -Wl,--dynamicbase,--nxcompat"
 
 ARG WINDRES_FLAGS="-F pe-i386"
 ARG DLLTOOL_FLAGS="-m i386"
@@ -278,9 +278,9 @@ FROM builder AS build_x86_64
 ARG HOST=x86_64-w64-mingw32
 ARG ARCH=x86_64
 
-ARG CFLAGS="-m64"
-ARG CXXFLAGS="-m64"
-ARG LDFLAGS="-m64"
+ARG CFLAGS="-m64 -mno-ms-bitfields -DWINVER=0x0601 -D_WIN32_WINNT=0x0601"
+ARG CXXFLAGS="-m64 -mno-ms-bitfields -DWINVER=0x0601 -D_WIN32_WINNT=0x0601"
+ARG LDFLAGS="-m64 -Wl,--dynamicbase,--nxcompat"
 
 ARG WINDRES_FLAGS="-F pe-x86-64"
 ARG DLLTOOL_FLAGS="-m i386:x86-64"
