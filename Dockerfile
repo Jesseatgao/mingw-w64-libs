@@ -105,7 +105,7 @@ ARG ARCH=i686
 
 ARG CFLAGS="-m32 -march=i686 -mno-ms-bitfields -DWINVER=0x0601 -D_WIN32_WINNT=0x0601  -D_FILE_OFFSET_BITS=64 -fstack-protector"
 ARG CXXFLAGS="-m32 -march=i686 -mno-ms-bitfields -DWINVER=0x0601 -D_WIN32_WINNT=0x0601  -D_FILE_OFFSET_BITS=64 -fstack-protector"
-ARG LDFLAGS="-m32 -march=i686 -fstack-protector -fpie -Wl,-pie -Wl,--dynamicbase -Wl,--nxcompat -static"
+ARG LDFLAGS="-m32 -march=i686 -fstack-protector -fpie -Wl,-pie -Wl,--dynamicbase -Wl,--nxcompat"
 
 ARG WINDRES_FLAGS="-F pe-i386"
 ARG DLLTOOL_FLAGS="-m i386"
@@ -130,7 +130,7 @@ RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
 \
 	&& mkdir -p $BUILDROOT/xz-$XZ_VER && cd $BUILDROOT/xz-$XZ_VER \
 	&& $SRC/xz-$XZ_VER/configure --prefix=$PREFIX --host=$HOST --build=$BUILD --enable-static=yes \
-	&& make -j `nproc` && make install \
+	&& make -C src/liblzma -j `nproc` install \
 	&& cd $PREFIX && tar Jcvf xz-$XZ_VER.$ARCH.tar.xz include/ lib/ \
 	&& cp -rf include/ lib/ ${MINGW32_SEARCH_PATH} && rm -rf include/ lib/ \
 \
@@ -280,7 +280,7 @@ ARG ARCH=x86_64
 
 ARG CFLAGS="-m64 -mno-ms-bitfields -DWINVER=0x0601 -D_WIN32_WINNT=0x0601 -D_FILE_OFFSET_BITS=64 -fstack-protector"
 ARG CXXFLAGS="-m64 -mno-ms-bitfields -DWINVER=0x0601 -D_WIN32_WINNT=0x0601 -D_FILE_OFFSET_BITS=64 -fstack-protector"
-ARG LDFLAGS="-m64 -fstack-protector -fpie -Wl,-pie -Wl,--dynamicbase -Wl,--nxcompat -static"
+ARG LDFLAGS="-m64 -fstack-protector -fpie -Wl,-pie -Wl,--dynamicbase -Wl,--nxcompat"
 
 ARG WINDRES_FLAGS="-F pe-x86-64"
 ARG DLLTOOL_FLAGS="-m i386:x86-64"
@@ -305,7 +305,7 @@ RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
 \
 	&& mkdir -p $BUILDROOT/xz-$XZ_VER && cd $BUILDROOT/xz-$XZ_VER \
 	&& $SRC/xz-$XZ_VER/configure --prefix=$PREFIX --host=$HOST --build=$BUILD --enable-static=yes \
-	&& make -j `nproc` && make install \
+	&& make -C src/liblzma -j `nproc` install \
 	&& cd $PREFIX && tar Jcvf xz-$XZ_VER.$ARCH.tar.xz include/ lib/ \
 	&& cp -rf include/ lib/ ${MINGW32_SEARCH_PATH} && rm -rf include/ lib/ \
 \
