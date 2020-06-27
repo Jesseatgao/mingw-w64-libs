@@ -63,8 +63,8 @@ RUN cd $SRC \
 \
 	&& /bin/bash -c \
 	'\
-	cd $SRC; \
-	for pkg in *.gz *.xz *.bz2 *.zip; \
+	cd $SRC; pkgs=$(ls|grep -e "\.gz$\|\.xz$\|\.bz2$\|\.zip$"); \
+	for pkg in $pkgs; \
 	do \
 	    pkg_name=$(echo $pkg|sed -n "s/\(.\+\)\(\.tar\.gz\|\.tar\.xz\|\.tar\.bz2\|\.zip\)$/\1/p"); \
 	    mkdir -p $pkg_name; \
@@ -79,7 +79,7 @@ RUN cd $SRC \
 	        unzip $pkg -d $pkg_name;; \
 	    esac; \
 	done; \
-	for patch in *.patch; \
+	patches=$(ls|grep -e \.patch$); for patch in $patches; \
 	do \
 	    if [[ $patch =~ \.conf\.patch$ ]]; then \
 	        patch_name=$(echo $patch|sed -n "s/\(.\+\)\.conf\.patch$/\1/p"); \
@@ -103,9 +103,9 @@ FROM builder AS build_i686
 ARG HOST=i686-w64-mingw32
 ARG ARCH=i686
 
-ARG CFLAGS="-m32 -march=i686 -mno-ms-bitfields -DWINVER=0x0601 -D_WIN32_WINNT=0x0601"
-ARG CXXFLAGS="-m32 -march=i686 -mno-ms-bitfields -DWINVER=0x0601 -D_WIN32_WINNT=0x0601"
-ARG LDFLAGS="-m32 -march=i686 -Wl,--dynamicbase,--nxcompat"
+ARG CFLAGS="-m32 -march=i686 -mno-ms-bitfields -DWINVER=0x0601 -D_WIN32_WINNT=0x0601  -D_FILE_OFFSET_BITS=64 -fstack-protector"
+ARG CXXFLAGS="-m32 -march=i686 -mno-ms-bitfields -DWINVER=0x0601 -D_WIN32_WINNT=0x0601  -D_FILE_OFFSET_BITS=64 -fstack-protector"
+ARG LDFLAGS="-m32 -march=i686 -fstack-protector -fpie -Wl,-pie -Wl,--dynamicbase -Wl,--nxcompat -static"
 
 ARG WINDRES_FLAGS="-F pe-i386"
 ARG DLLTOOL_FLAGS="-m i386"
@@ -278,9 +278,9 @@ FROM builder AS build_x86_64
 ARG HOST=x86_64-w64-mingw32
 ARG ARCH=x86_64
 
-ARG CFLAGS="-m64 -mno-ms-bitfields -DWINVER=0x0601 -D_WIN32_WINNT=0x0601"
-ARG CXXFLAGS="-m64 -mno-ms-bitfields -DWINVER=0x0601 -D_WIN32_WINNT=0x0601"
-ARG LDFLAGS="-m64 -Wl,--dynamicbase,--nxcompat"
+ARG CFLAGS="-m64 -mno-ms-bitfields -DWINVER=0x0601 -D_WIN32_WINNT=0x0601 -D_FILE_OFFSET_BITS=64 -fstack-protector"
+ARG CXXFLAGS="-m64 -mno-ms-bitfields -DWINVER=0x0601 -D_WIN32_WINNT=0x0601 -D_FILE_OFFSET_BITS=64 -fstack-protector"
+ARG LDFLAGS="-m64 -fstack-protector -fpie -Wl,-pie -Wl,--dynamicbase -Wl,--nxcompat -static"
 
 ARG WINDRES_FLAGS="-F pe-x86-64"
 ARG DLLTOOL_FLAGS="-m i386:x86-64"
