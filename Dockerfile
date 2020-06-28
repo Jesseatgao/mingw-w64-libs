@@ -204,20 +204,28 @@ RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
 	&& rm -rf include/ lib/ \
 \
 	&& mkdir -p $BUILDROOT/libogg-$OGG_VER && cd $BUILDROOT/libogg-$OGG_VER \
-	&& $SRC/libogg-$OGG_VER/configure --prefix=$PREFIX --host=$HOST --enable-static \
+	&& $SRC/libogg-$OGG_VER/configure --prefix=$PREFIX --host=$HOST --enable-static=yes --enable-shared=no \
 	&& make -j `nproc` && make install \
 	&& cd $PREFIX && tar Jcvf libogg-$OGG_VER.$ARCH.tar.xz include/ lib/ \
 	&& cp -rf include/ lib/ ${MINGW32_SEARCH_PATH} && rm -rf include/ lib/ \
 \
 	&& mkdir -p $BUILDROOT/libvorbis-$VORBIS_VER && cd $BUILDROOT/libvorbis-$VORBIS_VER \
-	&& $SRC/libvorbis-$VORBIS_VER/configure --prefix=$PREFIX --host=$HOST --enable-static \
-	&& make -j `nproc` && make install \
+	&& mv ${MINGW32_SEARCH_PATH}/include $PREFIX/include && mv ${MINGW32_SEARCH_PATH}/lib $PREFIX/lib \
+	&& $SRC/libvorbis-$VORBIS_VER/configure --prefix=$PREFIX --host=$HOST --enable-static=yes --enable-shared=no \
+		--with-ogg=$PREFIX --enable-docs=no \
+	&& make -j `nproc` \
+	&& mv $PREFIX/include ${MINGW32_SEARCH_PATH}/include && mv $PREFIX/lib ${MINGW32_SEARCH_PATH}/lib \
+	&& make install \
 	&& cd $PREFIX && tar Jcvf libvorbis-$VORBIS_VER.$ARCH.tar.xz include/ lib/ \
 	&& rm -rf include/ lib/ \
 \
 	&& mkdir -p $BUILDROOT/flac-$FLAC_VER && cd $BUILDROOT/flac-$FLAC_VER \
-	&& $SRC/flac-$FLAC_VER/configure --prefix=$PREFIX --host=$HOST --enable-static=yes --with-ogg=${MINGW32_SEARCH_PATH} \
-	&& make -j `nproc` && make install \
+	&& mv ${MINGW32_SEARCH_PATH}/include $PREFIX/include && mv ${MINGW32_SEARCH_PATH}/lib $PREFIX/lib \
+	&& $SRC/flac-$FLAC_VER/configure --prefix=$PREFIX --host=$HOST --enable-static=yes --enable-shared=no \
+		--enable-ogg --with-ogg=$PREFIX --disable-doxygen-docs --disable-xmms-plugin \
+	&& make -j `nproc` \
+	&& mv $PREFIX/include ${MINGW32_SEARCH_PATH}/include && mv $PREFIX/lib ${MINGW32_SEARCH_PATH}/lib \
+	&& make install \
 	&& cd $PREFIX && tar Jcvf flac-$FLAC_VER.$ARCH.tar.xz include/ lib/ \
 	&& rm -rf include/ lib/ \
 \
@@ -379,20 +387,28 @@ RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
 	&& rm -rf include/ lib/ \
 \
 	&& mkdir -p $BUILDROOT/libogg-$OGG_VER && cd $BUILDROOT/libogg-$OGG_VER \
-	&& $SRC/libogg-$OGG_VER/configure --prefix=$PREFIX --host=$HOST --enable-static \
+	&& $SRC/libogg-$OGG_VER/configure --prefix=$PREFIX --host=$HOST --enable-static=yes --enable-shared=no \
 	&& make -j `nproc` && make install \
 	&& cd $PREFIX && tar Jcvf libogg-$OGG_VER.$ARCH.tar.xz include/ lib/ \
 	&& cp -rf include/ lib/ ${MINGW32_SEARCH_PATH} && rm -rf include/ lib/ \
 \
 	&& mkdir -p $BUILDROOT/libvorbis-$VORBIS_VER && cd $BUILDROOT/libvorbis-$VORBIS_VER \
-	&& $SRC/libvorbis-$VORBIS_VER/configure --prefix=$PREFIX --host=$HOST --enable-static \
-	&& make -j `nproc` && make install \
+	&& mv ${MINGW32_SEARCH_PATH}/include $PREFIX/include && mv ${MINGW32_SEARCH_PATH}/lib $PREFIX/lib \
+	&& $SRC/libvorbis-$VORBIS_VER/configure --prefix=$PREFIX --host=$HOST --enable-static=yes --enable-shared=no \
+		--with-ogg=$PREFIX --enable-docs=no \
+	&& make -j `nproc` \
+	&& mv $PREFIX/include ${MINGW32_SEARCH_PATH}/include && mv $PREFIX/lib ${MINGW32_SEARCH_PATH}/lib \
+	&& make install \
 	&& cd $PREFIX && tar Jcvf libvorbis-$VORBIS_VER.$ARCH.tar.xz include/ lib/ \
 	&& rm -rf include/ lib/ \
 \
 	&& mkdir -p $BUILDROOT/flac-$FLAC_VER && cd $BUILDROOT/flac-$FLAC_VER \
-	&& $SRC/flac-$FLAC_VER/configure --prefix=$PREFIX --host=$HOST --enable-static=yes --with-ogg=${MINGW32_SEARCH_PATH} \
-	&& make -j `nproc` && make install \
+	&& mv ${MINGW32_SEARCH_PATH}/include $PREFIX/include && mv ${MINGW32_SEARCH_PATH}/lib $PREFIX/lib \
+	&& $SRC/flac-$FLAC_VER/configure --prefix=$PREFIX --host=$HOST --enable-static=yes --enable-shared=no \
+		--enable-ogg --with-ogg=$PREFIX --disable-doxygen-docs --disable-xmms-plugin \
+	&& make -j `nproc` \
+	&& mv $PREFIX/include ${MINGW32_SEARCH_PATH}/include && mv $PREFIX/lib ${MINGW32_SEARCH_PATH}/lib \
+	&& make install \
 	&& cd $PREFIX && tar Jcvf flac-$FLAC_VER.$ARCH.tar.xz include/ lib/ \
 	&& rm -rf include/ lib/ \
 \
