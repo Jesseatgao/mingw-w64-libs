@@ -23,14 +23,14 @@ ENV SRC=/opt/_src/
 ENV XZ_VER=5.2.5
 ENV BZIP2_VER=1.0.6
 ENV ZLIB_VER=1.2.11
-ENV EXPAT_VER=2.2.6
+ENV EXPAT_VER=2.2.9
 ENV LIBICONV_VER=1.16
 ENV BOOST_VER=1.60.0
 ENV OGG_VER=1.3.4
 ENV VORBIS_VER=1.3.6
 ENV FLAC_VER=1.3.3
 ENV LIBGNURX_VER=2.5.1
-ENV FILE_VER=5.11
+ENV FILE_VER=5.24
 ENV PUGIXML_VER=1.9
 ENV FMT_VER=6.2.1
 ENV LIBEBML_VER=1.3.10
@@ -39,7 +39,7 @@ ENV GETTEXT_VER=0.20.2
 ENV NLOHMANN_VER=3.8.0
 
 
-COPY Makefile.libgnurx boost-1.60.0.patch gettext-0.20.2.conf.patch $SRC
+COPY Makefile.libgnurx boost-1.60.0.patch gettext-0.20.2.conf.patch file-5.24.patch $SRC
 
 RUN cd $SRC \
 \
@@ -84,13 +84,13 @@ RUN cd $SRC \
 	    if [[ $patch =~ \.conf\.patch$ ]]; then \
 	        patch_name=$(echo $patch|sed -n "s/\(.\+\)\.conf\.patch$/\1/p"); \
 	        [[ -d $patch_name ]] && cd $patch_name && \
-	        git apply -p1 < ../$patch && \
+	        git apply -v -p1 < ../$patch && \
 	        autoreconf -if && \
 	        cd ..; \
 	    else \
 	        patch_name=$(echo $patch|sed -n "s/\(.\+\)\.patch$/\1/p"); \
 	        [[ -d $patch_name ]] && cd $patch_name && \
-	        git apply -p1 < ../$patch && \
+	        git apply -v -p1 < ../$patch && \
 	        cd ..; \
 	    fi; \
 	done\
@@ -116,14 +116,17 @@ ENV DLLTOOL "${MINGW32}-dlltool ${DLLTOOL_FLAGS}"
 
 
 ARG MINGW32_SEARCH_PATH=/opt/mingw32
-#ARG PKG_CONFIG_PATH=${MINGW32_SEARCH_PATH}/lib/pkgconfig/
 
-ARG CFLAGS="${CFLAGS} -I${MINGW32_SEARCH_PATH}/include"
-ARG CXXFLAGS="${CXXFLAGS} -I${MINGW32_SEARCH_PATH}/include"
-ARG LDFLAGS="${LDFLAGS} -L${MINGW32_SEARCH_PATH}/lib"
 
 ARG BUILDROOT=/opt/mingw32/_buildroot
-ARG PREFIX=/opt/mingw32/i686-w64-mingw32
+ARG PREFIX=${MINGW32_SEARCH_PATH}/$HOST
+
+
+#ARG PKG_CONFIG_PATH=${PREFIX}/lib/pkgconfig/
+
+ARG CFLAGS="${CFLAGS} -I${PREFIX}/include"
+ARG CXXFLAGS="${CXXFLAGS} -I${PREFIX}/include"
+ARG LDFLAGS="${LDFLAGS} -L${PREFIX}/lib"
 
 
 RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
@@ -148,13 +151,13 @@ RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
 	&& cp -rf include/ lib/ ${MINGW32_SEARCH_PATH} && rm -rf include/ lib/ \
 \
 	&& mkdir -p $BUILDROOT/expat-$EXPAT_VER && cd $BUILDROOT/expat-$EXPAT_VER \
-	&& $SRC/expat-$EXPAT_VER/configure --prefix=$PREFIX --host=$HOST --enable-static=yes --enable-shared=no \
+	&& $SRC/expat-$EXPAT_VER/configure --prefix=$PREFIX --host=$HOST --enable-static=yes --enable-shared=no --without-docbook \
 	&& make -j `nproc` && make install \
 	&& cd $PREFIX && tar Jcvf expat-$EXPAT_VER.$ARCH.tar.xz include/ lib/ \
 	&& cp -rf include/ lib/ ${MINGW32_SEARCH_PATH} && rm -rf include/ lib/ \
 \
 	&& mkdir -p $BUILDROOT/libiconv-$LIBICONV_VER && cd $BUILDROOT/libiconv-$LIBICONV_VER \
-	&& $SRC/libiconv-$LIBICONV_VER/configure --prefix=$PREFIX --host=$HOST --build=$BUILD --enable-static=yes --enable-shared=yes --disable-nls \
+	&& $SRC/libiconv-$LIBICONV_VER/configure --prefix=$PREFIX --host=$HOST --build=$BUILD --enable-static=yes --enable-shared=no --disable-nls \
 	&& make -j `nproc` && make install \
 	&& cd $PREFIX && tar Jcvf libiconv-$LIBICONV_VER.$ARCH.tar.xz include/ lib/ \
 	&& cp -rf include/ lib/ ${MINGW32_SEARCH_PATH} && rm -rf include/ lib/ \
@@ -210,21 +213,21 @@ RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
 	&& cp -rf include/ lib/ ${MINGW32_SEARCH_PATH} && rm -rf include/ lib/ \
 \
 	&& mkdir -p $BUILDROOT/libvorbis-$VORBIS_VER && cd $BUILDROOT/libvorbis-$VORBIS_VER \
-	&& mv ${MINGW32_SEARCH_PATH}/include $PREFIX/include && mv ${MINGW32_SEARCH_PATH}/lib $PREFIX/lib \
+	&& mv ${MINGW32_SEARCH_PATH}/include $PREFIX && mv ${MINGW32_SEARCH_PATH}/lib $PREFIX \
 	&& $SRC/libvorbis-$VORBIS_VER/configure --prefix=$PREFIX --host=$HOST --enable-static=yes --enable-shared=no \
 		--with-ogg=$PREFIX --enable-docs=no \
 	&& make -j `nproc` \
-	&& mv $PREFIX/include ${MINGW32_SEARCH_PATH}/include && mv $PREFIX/lib ${MINGW32_SEARCH_PATH}/lib \
+	&& mv $PREFIX/include ${MINGW32_SEARCH_PATH} && mv $PREFIX/lib ${MINGW32_SEARCH_PATH} \
 	&& make install \
 	&& cd $PREFIX && tar Jcvf libvorbis-$VORBIS_VER.$ARCH.tar.xz include/ lib/ \
 	&& rm -rf include/ lib/ \
 \
 	&& mkdir -p $BUILDROOT/flac-$FLAC_VER && cd $BUILDROOT/flac-$FLAC_VER \
-	&& mv ${MINGW32_SEARCH_PATH}/include $PREFIX/include && mv ${MINGW32_SEARCH_PATH}/lib $PREFIX/lib \
+	&& mv ${MINGW32_SEARCH_PATH}/include $PREFIX && mv ${MINGW32_SEARCH_PATH}/lib $PREFIX \
 	&& $SRC/flac-$FLAC_VER/configure --prefix=$PREFIX --host=$HOST --enable-static=yes --enable-shared=no \
 		--enable-ogg --with-ogg=$PREFIX --disable-doxygen-docs --disable-xmms-plugin \
 	&& make -j `nproc` \
-	&& mv $PREFIX/include ${MINGW32_SEARCH_PATH}/include && mv $PREFIX/lib ${MINGW32_SEARCH_PATH}/lib \
+	&& mv $PREFIX/include ${MINGW32_SEARCH_PATH} && mv $PREFIX/lib ${MINGW32_SEARCH_PATH} \
 	&& make install \
 	&& cd $PREFIX && tar Jcvf flac-$FLAC_VER.$ARCH.tar.xz include/ lib/ \
 	&& rm -rf include/ lib/ \
@@ -237,8 +240,16 @@ RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
 	&& cp -rf include/ lib/ ${MINGW32_SEARCH_PATH} && rm -rf include/ lib/ \
 \
 	&& mkdir -p $BUILDROOT/file-$FILE_VER && cd $BUILDROOT/file-$FILE_VER \
-	&& autoreconf -f -i $SRC/file-$FILE_VER && CFLAGS="${CFLAGS} -DHAVE_PREAD" LDFLAGS="${LDFLAGS}" $SRC/file-$FILE_VER/configure --prefix=$PREFIX --host=$HOST --build=$BUILD --enable-static=yes --disable-silent-rules \
-	&& make -j `nproc` && make install \
+	&& autoreconf -if $SRC/file-$FILE_VER \
+	&& cp -rp $SRC/file-$FILE_VER file-$FILE_VER.native \
+	&& cd file-$FILE_VER.native && CC=gcc AR=ar RANLIB=ranlib LD=ld CFLAGS= LDFLAGS= ./configure --disable-shared \
+	&& make -j `nproc` \
+	&& cd $BUILDROOT/file-$FILE_VER \
+	&& mv ${MINGW32_SEARCH_PATH}/include $PREFIX/ && mv ${MINGW32_SEARCH_PATH}/lib $PREFIX/ \
+	&& CFLAGS="${CFLAGS} -DHAVE_PREAD" LDFLAGS="${LDFLAGS}" $SRC/file-$FILE_VER/configure --prefix=$PREFIX --host=$HOST --build=$BUILD --enable-static=yes --disable-silent-rules --disable-shared \
+	&& make -j `nproc` FILE_COMPILE="$BUILDROOT/file-$FILE_VER/file-$FILE_VER.native/src/file" \
+	&& mv $PREFIX/include ${MINGW32_SEARCH_PATH} && mv $PREFIX/lib ${MINGW32_SEARCH_PATH} \
+	&& make install \
 	&& cd $PREFIX && tar Jcvf file-$FILE_VER.$ARCH.tar.xz include/ lib/ \
 	&& rm -rf include/ lib/ \
 \
@@ -261,14 +272,20 @@ RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
 	&& cp -rf include/ lib/ ${MINGW32_SEARCH_PATH} && rm -rf include/ lib/ \
 \
 	&& mkdir -p $BUILDROOT/libmatroska-$LIBMATROSKA_VER && cd $BUILDROOT/libmatroska-$LIBMATROSKA_VER \
-	&& cmake -G "Unix Makefiles" -DCMAKE_SYSTEM_NAME=Windows -DCMAKE_INSTALL_PREFIX=$PREFIX  -DCMAKE_PREFIX_PATH=${MINGW32_SEARCH_PATH} $SRC/libmatroska-$LIBMATROSKA_VER \
-	&& make -j `nproc` && make install \
+	&& mv ${MINGW32_SEARCH_PATH}/include $PREFIX && mv ${MINGW32_SEARCH_PATH}/lib $PREFIX \
+	&& cmake -G "Unix Makefiles" -DCMAKE_SYSTEM_NAME=Windows -DCMAKE_INSTALL_PREFIX=$PREFIX  -DCMAKE_PREFIX_PATH=$PREFIX $SRC/libmatroska-$LIBMATROSKA_VER \
+	&& make -j `nproc` \
+	&& mv $PREFIX/include ${MINGW32_SEARCH_PATH} && mv $PREFIX/lib ${MINGW32_SEARCH_PATH} \
+	&& make install \
 	&& cd $PREFIX && tar Jcvf libmatroska-$LIBMATROSKA_VER.$ARCH.tar.xz include/ lib/ \
 	&& rm -rf include/ lib/ \
 \
 	&& mkdir -p $BUILDROOT/gettext-$GETTEXT_VER && cd $BUILDROOT/gettext-$GETTEXT_VER \
-	&& $SRC/gettext-$GETTEXT_VER/gettext-runtime/configure --prefix=$PREFIX --host=$HOST --build=$BUILD --enable-static=yes --enable-threads=windows \
-	&& make -C intl -j `nproc` && make -C intl install \
+	&& mv ${MINGW32_SEARCH_PATH}/include $PREFIX && mv ${MINGW32_SEARCH_PATH}/lib $PREFIX \
+	&& $SRC/gettext-$GETTEXT_VER/gettext-runtime/configure --prefix=$PREFIX --host=$HOST --build=$BUILD --enable-static=yes --enable-shared=no --enable-threads=windows \
+	&& make -C intl -j `nproc` \
+	&& mv $PREFIX/include ${MINGW32_SEARCH_PATH} && mv $PREFIX/lib ${MINGW32_SEARCH_PATH} \
+	&& make -C intl install \
 	&& cd $PREFIX && tar Jcvf libintl-$GETTEXT_VER.$ARCH.tar.xz include/ lib/ \
 	&& rm -rf include/ lib/ \
 \
@@ -299,14 +316,17 @@ ENV DLLTOOL "${MINGW32}-dlltool ${DLLTOOL_FLAGS}"
 
 
 ARG MINGW32_SEARCH_PATH=/opt/mingw32
-#ARG PKG_CONFIG_PATH=${MINGW32_SEARCH_PATH}/lib/pkgconfig/
 
-ARG CFLAGS="${CFLAGS} -I${MINGW32_SEARCH_PATH}/include"
-ARG CXXFLAGS="${CXXFLAGS} -I${MINGW32_SEARCH_PATH}/include"
-ARG LDFLAGS="${LDFLAGS} -L${MINGW32_SEARCH_PATH}/lib"
 
 ARG BUILDROOT=/opt/mingw32/_buildroot
-ARG PREFIX=/opt/mingw32/x86_64-w64-mingw32
+ARG PREFIX=${MINGW32_SEARCH_PATH}/$HOST
+
+
+#ARG PKG_CONFIG_PATH=${PREFIX}/lib/pkgconfig/
+
+ARG CFLAGS="${CFLAGS} -I${PREFIX}/include"
+ARG CXXFLAGS="${CXXFLAGS} -I${PREFIX}/include"
+ARG LDFLAGS="${LDFLAGS} -L${PREFIX}/lib"
 
 
 RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
@@ -331,13 +351,13 @@ RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
 	&& cp -rf include/ lib/ ${MINGW32_SEARCH_PATH} && rm -rf include/ lib/ \
 \
 	&& mkdir -p $BUILDROOT/expat-$EXPAT_VER && cd $BUILDROOT/expat-$EXPAT_VER \
-	&& $SRC/expat-$EXPAT_VER/configure --prefix=$PREFIX --host=$HOST --enable-static=yes --enable-shared=no \
+	&& $SRC/expat-$EXPAT_VER/configure --prefix=$PREFIX --host=$HOST --enable-static=yes --enable-shared=no --without-docbook \
 	&& make -j `nproc` && make install \
 	&& cd $PREFIX && tar Jcvf expat-$EXPAT_VER.$ARCH.tar.xz include/ lib/ \
 	&& cp -rf include/ lib/ ${MINGW32_SEARCH_PATH} && rm -rf include/ lib/ \
 \
 	&& mkdir -p $BUILDROOT/libiconv-$LIBICONV_VER && cd $BUILDROOT/libiconv-$LIBICONV_VER \
-	&& $SRC/libiconv-$LIBICONV_VER/configure --prefix=$PREFIX --host=$HOST --build=$BUILD --enable-static=yes --enable-shared=yes --disable-nls \
+	&& $SRC/libiconv-$LIBICONV_VER/configure --prefix=$PREFIX --host=$HOST --build=$BUILD --enable-static=yes --enable-shared=no --disable-nls \
 	&& make -j `nproc` && make install \
 	&& cd $PREFIX && tar Jcvf libiconv-$LIBICONV_VER.$ARCH.tar.xz include/ lib/ \
 	&& cp -rf include/ lib/ ${MINGW32_SEARCH_PATH} && rm -rf include/ lib/ \
@@ -393,21 +413,21 @@ RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
 	&& cp -rf include/ lib/ ${MINGW32_SEARCH_PATH} && rm -rf include/ lib/ \
 \
 	&& mkdir -p $BUILDROOT/libvorbis-$VORBIS_VER && cd $BUILDROOT/libvorbis-$VORBIS_VER \
-	&& mv ${MINGW32_SEARCH_PATH}/include $PREFIX/include && mv ${MINGW32_SEARCH_PATH}/lib $PREFIX/lib \
+	&& mv ${MINGW32_SEARCH_PATH}/include $PREFIX && mv ${MINGW32_SEARCH_PATH}/lib $PREFIX \
 	&& $SRC/libvorbis-$VORBIS_VER/configure --prefix=$PREFIX --host=$HOST --enable-static=yes --enable-shared=no \
 		--with-ogg=$PREFIX --enable-docs=no \
 	&& make -j `nproc` \
-	&& mv $PREFIX/include ${MINGW32_SEARCH_PATH}/include && mv $PREFIX/lib ${MINGW32_SEARCH_PATH}/lib \
+	&& mv $PREFIX/include ${MINGW32_SEARCH_PATH} && mv $PREFIX/lib ${MINGW32_SEARCH_PATH} \
 	&& make install \
 	&& cd $PREFIX && tar Jcvf libvorbis-$VORBIS_VER.$ARCH.tar.xz include/ lib/ \
 	&& rm -rf include/ lib/ \
 \
 	&& mkdir -p $BUILDROOT/flac-$FLAC_VER && cd $BUILDROOT/flac-$FLAC_VER \
-	&& mv ${MINGW32_SEARCH_PATH}/include $PREFIX/include && mv ${MINGW32_SEARCH_PATH}/lib $PREFIX/lib \
+	&& mv ${MINGW32_SEARCH_PATH}/include $PREFIX && mv ${MINGW32_SEARCH_PATH}/lib $PREFIX \
 	&& $SRC/flac-$FLAC_VER/configure --prefix=$PREFIX --host=$HOST --enable-static=yes --enable-shared=no \
 		--enable-ogg --with-ogg=$PREFIX --disable-doxygen-docs --disable-xmms-plugin \
 	&& make -j `nproc` \
-	&& mv $PREFIX/include ${MINGW32_SEARCH_PATH}/include && mv $PREFIX/lib ${MINGW32_SEARCH_PATH}/lib \
+	&& mv $PREFIX/include ${MINGW32_SEARCH_PATH} && mv $PREFIX/lib ${MINGW32_SEARCH_PATH} \
 	&& make install \
 	&& cd $PREFIX && tar Jcvf flac-$FLAC_VER.$ARCH.tar.xz include/ lib/ \
 	&& rm -rf include/ lib/ \
@@ -420,8 +440,16 @@ RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
 	&& cp -rf include/ lib/ ${MINGW32_SEARCH_PATH} && rm -rf include/ lib/ \
 \
 	&& mkdir -p $BUILDROOT/file-$FILE_VER && cd $BUILDROOT/file-$FILE_VER \
-	&& autoreconf -f -i $SRC/file-$FILE_VER && CFLAGS="${CFLAGS} -DHAVE_PREAD" LDFLAGS="${LDFLAGS}" $SRC/file-$FILE_VER/configure --prefix=$PREFIX --host=$HOST --build=$BUILD --enable-static=yes --disable-silent-rules \
-	&& make -j `nproc` && make install \
+	&& autoreconf -if $SRC/file-$FILE_VER \
+	&& cp -rp $SRC/file-$FILE_VER file-$FILE_VER.native \
+	&& cd file-$FILE_VER.native && CC=gcc AR=ar RANLIB=ranlib LD=ld CFLAGS= LDFLAGS= ./configure --disable-shared \
+	&& make -j `nproc` \
+	&& cd $BUILDROOT/file-$FILE_VER \
+	&& mv ${MINGW32_SEARCH_PATH}/include $PREFIX/ && mv ${MINGW32_SEARCH_PATH}/lib $PREFIX/ \
+	&& CFLAGS="${CFLAGS} -DHAVE_PREAD" LDFLAGS="${LDFLAGS}" $SRC/file-$FILE_VER/configure --prefix=$PREFIX --host=$HOST --build=$BUILD --enable-static=yes --disable-silent-rules --disable-shared \
+	&& make -j `nproc` FILE_COMPILE="$BUILDROOT/file-$FILE_VER/file-$FILE_VER.native/src/file" \
+	&& mv $PREFIX/include ${MINGW32_SEARCH_PATH} && mv $PREFIX/lib ${MINGW32_SEARCH_PATH} \
+	&& make install \
 	&& cd $PREFIX && tar Jcvf file-$FILE_VER.$ARCH.tar.xz include/ lib/ \
 	&& rm -rf include/ lib/ \
 \
@@ -444,14 +472,20 @@ RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
 	&& cp -rf include/ lib/ ${MINGW32_SEARCH_PATH} && rm -rf include/ lib/ \
 \
 	&& mkdir -p $BUILDROOT/libmatroska-$LIBMATROSKA_VER && cd $BUILDROOT/libmatroska-$LIBMATROSKA_VER \
-	&& cmake -G "Unix Makefiles" -DCMAKE_SYSTEM_NAME=Windows -DCMAKE_INSTALL_PREFIX=$PREFIX  -DCMAKE_PREFIX_PATH=${MINGW32_SEARCH_PATH} $SRC/libmatroska-$LIBMATROSKA_VER \
-	&& make -j `nproc` && make install \
+	&& mv ${MINGW32_SEARCH_PATH}/include $PREFIX && mv ${MINGW32_SEARCH_PATH}/lib $PREFIX \
+	&& cmake -G "Unix Makefiles" -DCMAKE_SYSTEM_NAME=Windows -DCMAKE_INSTALL_PREFIX=$PREFIX  -DCMAKE_PREFIX_PATH=$PREFIX $SRC/libmatroska-$LIBMATROSKA_VER \
+	&& make -j `nproc` \
+	&& mv $PREFIX/include ${MINGW32_SEARCH_PATH} && mv $PREFIX/lib ${MINGW32_SEARCH_PATH} \
+	&& make install \
 	&& cd $PREFIX && tar Jcvf libmatroska-$LIBMATROSKA_VER.$ARCH.tar.xz include/ lib/ \
 	&& rm -rf include/ lib/ \
 \
 	&& mkdir -p $BUILDROOT/gettext-$GETTEXT_VER && cd $BUILDROOT/gettext-$GETTEXT_VER \
-	&& $SRC/gettext-$GETTEXT_VER/gettext-runtime/configure --prefix=$PREFIX --host=$HOST --build=$BUILD --enable-static=yes --enable-threads=windows \
-	&& make -C intl -j `nproc` && make -C intl install \
+	&& mv ${MINGW32_SEARCH_PATH}/include $PREFIX && mv ${MINGW32_SEARCH_PATH}/lib $PREFIX \
+	&& $SRC/gettext-$GETTEXT_VER/gettext-runtime/configure --prefix=$PREFIX --host=$HOST --build=$BUILD --enable-static=yes --enable-shared=no --enable-threads=windows \
+	&& make -C intl -j `nproc` \
+	&& mv $PREFIX/include ${MINGW32_SEARCH_PATH} && mv $PREFIX/lib ${MINGW32_SEARCH_PATH} \
+	&& make -C intl install \
 	&& cd $PREFIX && tar Jcvf libintl-$GETTEXT_VER.$ARCH.tar.xz include/ lib/ \
 	&& rm -rf include/ lib/ \
 \
