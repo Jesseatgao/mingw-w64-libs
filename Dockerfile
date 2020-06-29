@@ -34,8 +34,8 @@ ENV FILE_VER=5.24
 ENV PUGIXML_VER=1.9
 ENV FMT_VER=6.2.1
 
-# libmatroska v1.5.2 requires libebml v1.3.9
-ENV LIBEBML_VER=1.3.9
+# libmatroska v1.5.2 requires libebml >= v1.3.9
+ENV LIBEBML_VER=1.3.10
 ENV LIBMATROSKA_VER=1.5.2
 
 ENV GETTEXT_VER=0.20.2
@@ -276,7 +276,7 @@ RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
 \
 	&& mkdir -p $BUILDROOT/libmatroska-$LIBMATROSKA_VER && cd $BUILDROOT/libmatroska-$LIBMATROSKA_VER \
 	&& mv ${MINGW32_SEARCH_PATH}/include $PREFIX && mv ${MINGW32_SEARCH_PATH}/lib $PREFIX \
-	&& cmake -G "Unix Makefiles" -DCMAKE_SYSTEM_NAME=Windows -DCMAKE_INSTALL_PREFIX=$PREFIX  -DCMAKE_PREFIX_PATH=$PREFIX $SRC/libmatroska-$LIBMATROSKA_VER \
+	&& cmake -G "Unix Makefiles" -DCMAKE_SYSTEM_NAME=Windows -DCMAKE_INSTALL_PREFIX=$PREFIX  -DCMAKE_PREFIX_PATH=${MINGW32_SEARCH_PATH} $SRC/libmatroska-$LIBMATROSKA_VER \
 	&& make -j `nproc` \
 	&& mv $PREFIX/include ${MINGW32_SEARCH_PATH} && mv $PREFIX/lib ${MINGW32_SEARCH_PATH} \
 	&& make install \
@@ -476,7 +476,7 @@ RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
 \
 	&& mkdir -p $BUILDROOT/libmatroska-$LIBMATROSKA_VER && cd $BUILDROOT/libmatroska-$LIBMATROSKA_VER \
 	&& mv ${MINGW32_SEARCH_PATH}/include $PREFIX && mv ${MINGW32_SEARCH_PATH}/lib $PREFIX \
-	&& cmake -G "Unix Makefiles" -DCMAKE_SYSTEM_NAME=Windows -DCMAKE_INSTALL_PREFIX=$PREFIX  -DCMAKE_PREFIX_PATH=$PREFIX $SRC/libmatroska-$LIBMATROSKA_VER \
+	&& cmake -G "Unix Makefiles" -DCMAKE_SYSTEM_NAME=Windows -DCMAKE_INSTALL_PREFIX=$PREFIX  -DCMAKE_PREFIX_PATH=${MINGW32_SEARCH_PATH} $SRC/libmatroska-$LIBMATROSKA_VER \
 	&& make -j `nproc` \
 	&& mv $PREFIX/include ${MINGW32_SEARCH_PATH} && mv $PREFIX/lib ${MINGW32_SEARCH_PATH} \
 	&& make install \
