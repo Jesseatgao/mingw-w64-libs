@@ -269,7 +269,7 @@ RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
 	&& rm -rf include/ lib/ \
 \
 	&& mkdir -p $BUILDROOT/libebml-$LIBEBML_VER && cd $BUILDROOT/libebml-$LIBEBML_VER \
-	&& cmake -G "Unix Makefiles" -DCMAKE_SYSTEM_NAME=Windows -DCMAKE_INSTALL_PREFIX=$PREFIX $SRC/libebml-$LIBEBML_VER \
+	&& cmake -G "Unix Makefiles" -DCMAKE_SYSTEM_NAME=Windows -DWIN32=ON -DENABLE_WIN32_IO=ON -DCMAKE_INSTALL_PREFIX=$PREFIX $SRC/libebml-$LIBEBML_VER \
 	&& make -j `nproc` && make install \
 	&& cd $PREFIX && tar Jcvf libebml-$LIBEBML_VER.$ARCH.tar.xz include/ lib/ \
 	&& cp -rf include/ lib/ ${MINGW32_SEARCH_PATH} && rm -rf include/ lib/ \
@@ -469,7 +469,7 @@ RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
 	&& rm -rf include/ lib/ \
 \
 	&& mkdir -p $BUILDROOT/libebml-$LIBEBML_VER && cd $BUILDROOT/libebml-$LIBEBML_VER \
-	&& cmake -G "Unix Makefiles" -DCMAKE_SYSTEM_NAME=Windows -DCMAKE_INSTALL_PREFIX=$PREFIX $SRC/libebml-$LIBEBML_VER \
+	&& cmake -G "Unix Makefiles" -DCMAKE_SYSTEM_NAME=Windows -DWIN32=ON -DENABLE_WIN32_IO=ON -DCMAKE_INSTALL_PREFIX=$PREFIX $SRC/libebml-$LIBEBML_VER \
 	&& make -j `nproc` && make install \
 	&& cd $PREFIX && tar Jcvf libebml-$LIBEBML_VER.$ARCH.tar.xz include/ lib/ \
 	&& cp -rf include/ lib/ ${MINGW32_SEARCH_PATH} && rm -rf include/ lib/ \
