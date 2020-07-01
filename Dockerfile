@@ -108,7 +108,7 @@ ARG ARCH=i686
 
 ARG CFLAGS="-m32 -march=i686 -mno-ms-bitfields -DWINVER=0x0601 -D_WIN32_WINNT=0x0601  -D_FILE_OFFSET_BITS=64 -fstack-protector-strong"
 ARG CXXFLAGS="-m32 -march=i686 -mno-ms-bitfields -DWINVER=0x0601 -D_WIN32_WINNT=0x0601  -D_FILE_OFFSET_BITS=64 -fstack-protector-strong"
-ARG LDFLAGS="-m32 -march=i686 -fstack-protector-strong -fpie -Wl,-pie -Wl,--dynamicbase -Wl,--nxcompat"
+ARG LDFLAGS="-m32 -march=i686 -fstack-protector-strong"
 
 ARG WINDRES_FLAGS="-F pe-i386"
 ARG DLLTOOL_FLAGS="-m i386"
@@ -308,7 +308,7 @@ ARG ARCH=x86_64
 
 ARG CFLAGS="-m64 -mno-ms-bitfields -DWINVER=0x0601 -D_WIN32_WINNT=0x0601 -D_FILE_OFFSET_BITS=64 -fstack-protector-strong"
 ARG CXXFLAGS="-m64 -mno-ms-bitfields -DWINVER=0x0601 -D_WIN32_WINNT=0x0601 -D_FILE_OFFSET_BITS=64 -fstack-protector-strong"
-ARG LDFLAGS="-m64 -fstack-protector-strong -fpie -Wl,-pie -Wl,--dynamicbase -Wl,--nxcompat"
+ARG LDFLAGS="-m64 -fstack-protector-strong"
 
 ARG WINDRES_FLAGS="-F pe-x86-64"
 ARG DLLTOOL_FLAGS="-m i386:x86-64"
