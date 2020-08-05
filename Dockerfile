@@ -1,5 +1,5 @@
 ################### Stage: Prepare the sources to compile ######################
-FROM cgdoc/mingw-w64-multilib:posix-v1.0 AS builder
+FROM cgdoc/mingw-w64-multilib:posix-v1.1 AS builder
 
 
 ENV BUILD=x86_64-unknown-linux-gnu

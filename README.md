@@ -1,9 +1,9 @@
 # mingw-w64-libs
-Common static libs prebuilt by `cgdoc/mingw-w64-multilib:posix-v1.0`
+Common static libs prebuilt by `cgdoc/mingw-w64-multilib:posix-v1.1`
 ## Index
 * boost-1.60.0
 * bzip2-1.0.6 
-* expat-2.2.6
+* expat-2.2.9
 * file-5.24
 * fmt-6.2.1
 * flac-1.3.3
