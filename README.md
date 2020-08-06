@@ -37,12 +37,19 @@ Common static libs prebuilt by the cross-compilation toolchain docker images [`c
 * i686 version
     * individually packed headers and libs (.i686.tar.xz) - 32-bit:
     
-        /opt/mingw32/i686-w64-mingw32/packages/
+        `/opt/mingw32/i686-w64-mingw32/packages/`
     
 * x86_64 version
     * individually packed headers and libs (.x86_64.tar.xz) - 64-bit:
     
-        /opt/mingw32/x86_64-w64-mingw32/packages/
+        `/opt/mingw32/x86_64-w64-mingw32/packages/`
+## Expected Installation Location
+* i686 version
+
+    `/opt/mingw32/i686-w64-mingw32/`
+* x86_64 version
+
+    `/opt/mingw32/x86_64-w64-mingw32/`
 ## Example Usage
 * [Build MKVToolNix using `cgdoc/mingw-w64-libs`](https://github.com/Jesseatgao/MKVToolNix-static-builds/blob/master/Dockerfile.mingw)
 
