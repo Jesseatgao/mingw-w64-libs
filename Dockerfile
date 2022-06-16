@@ -1,5 +1,5 @@
 ################### Stage: Prepare the sources to compile ######################
-FROM cgdoc/mingw-w64-multilib:win32-v1.0 AS builder
+FROM cgdoc/mingw-w64-multilib:win32-v1.4 AS builder
 
 
 ENV BUILD=x86_64-unknown-linux-gnu
@@ -21,28 +21,27 @@ ENV SRC=/opt/_src/
 
 
 ENV XZ_VER=5.2.5
-ENV BZIP2_VER=1.0.6
-ENV ZLIB_VER=1.2.11
-ENV EXPAT_VER=2.2.9
-ENV LIBICONV_VER=1.16
-ENV BOOST_VER=1.60.0
-ENV OGG_VER=1.3.4
-ENV VORBIS_VER=1.3.6
-ENV FLAC_VER=1.3.3
-ENV LIBGNURX_VER=2.5.1
-ENV FILE_VER=5.24
-ENV PUGIXML_VER=1.9
-ENV FMT_VER=6.2.1
+ENV BZIP2_VER=1.0.8
+ENV ZLIB_VER=1.2.12
+ENV EXPAT_VER=2.4.8
+ENV LIBICONV_VER=1.17
+ENV BOOST_VER=1.79.0
+ENV OGG_VER=1.3.5
+ENV VORBIS_VER=1.3.7
+ENV FLAC_VER=1.3.4
+ENV LIBGNURX_VER=2.6.1
+ENV FILE_VER=5.40
+ENV PUGIXML_VER=1.12.1
+ENV FMT_VER=8.1.1
 
-# libmatroska v1.5.2 requires libebml >= v1.3.9
-ENV LIBEBML_VER=1.3.10
-ENV LIBMATROSKA_VER=1.5.2
+ENV LIBEBML_VER=1.4.2
+ENV LIBMATROSKA_VER=1.6.3
 
 ENV GETTEXT_VER=0.20.2
-ENV NLOHMANN_VER=3.8.0
+ENV NLOHMANN_VER=3.10.5
 
 
-COPY Makefile.libgnurx boost-1.60.0.patch gettext-0.20.2.conf.patch file-5.24.patch $SRC
+COPY Makefile.libgnurx boost-1.79.0.patch gettext-0.20.2.conf.patch file-5.40.patch $SRC
 
 RUN cd $SRC \
 \
@@ -55,8 +54,8 @@ RUN cd $SRC \
 	&& curl -L -O https://ftp.osuosl.org/pub/xiph/releases/ogg/libogg-$OGG_VER.tar.xz \
 	&& curl -L -O https://ftp.osuosl.org/pub/xiph/releases/vorbis/libvorbis-$VORBIS_VER.tar.xz \
 	&& curl -L -O https://ftp.osuosl.org/pub/xiph/releases/flac/flac-$FLAC_VER.tar.xz \
-	&& curl -L -o mingw-libgnurx-$LIBGNURX_VER.tar.gz https://sourceforge.net/projects/mingw/files/Other/UserContributed/regex/mingw-regex-$LIBGNURX_VER/mingw-libgnurx-$LIBGNURX_VER-src.tar.gz \
-	&& curl -L -o file-$FILE_VER.tar.gz https://github.com/file/file/archive/FILE$(echo $FILE_VER|sed 's/\./_/g').tar.gz \
+	&& curl -L -o mingw-libgnurx-$LIBGNURX_VER.tar.gz https://github.com/TimothyGu/libgnurx/archive/libgnurx-$LIBGNURX_VER.tar.gz \
+	&& curl -L -O https://distfiles.macports.org/file/file-$FILE_VER.tar.gz \
 	&& curl -L -O https://github.com/zeux/pugixml/releases/download/v$PUGIXML_VER/pugixml-$PUGIXML_VER.tar.gz \
 	&& curl -L -o fmt-$FMT_VER.tar.gz https://github.com/fmtlib/fmt/archive/$FMT_VER.tar.gz \
 	&& curl -L -O https://dl.matroska.org/downloads/libebml/libebml-$LIBEBML_VER.tar.xz \
