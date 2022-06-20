@@ -180,7 +180,6 @@ RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
         binary-format=pe \
         link=static \
         target-os=windows \
-        define=BOOST_USE_WINAPI_VERSION=0x0600 \
         threadapi=win32 \
         threading=multi \
 		runtime-link=static \
@@ -381,7 +380,6 @@ RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
         binary-format=pe \
         link=static \
         target-os=windows \
-        define=BOOST_USE_WINAPI_VERSION=0x0600 \
         threadapi=win32 \
         threading=multi \
 		runtime-link=static \
