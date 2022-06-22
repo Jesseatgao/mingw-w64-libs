@@ -28,8 +28,9 @@ Common static libs prebuilt by the cross-compilation toolchain docker images [`c
 * libebml-1.4.2
 * libmatroska-1.6.3
 * libintl-0.20.2 (gettext-0.20.2)
-* mingw-libgnurx-2.6.1
+* mingw-libgnurx-2.5.1
 * nlohmann-json-3.10.5
+* pcre2-10.40
 * pugixml-1.12.1
 * xz-5.2.5
 * zlib-1.2.12
