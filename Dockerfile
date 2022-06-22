@@ -29,7 +29,7 @@ ENV BOOST_VER=1.79.0
 ENV OGG_VER=1.3.5
 ENV VORBIS_VER=1.3.7
 ENV FLAC_VER=1.3.4
-ENV LIBGNURX_VER=2.6.1
+ENV LIBGNURX_VER=2.5.1
 ENV FILE_VER=5.40
 ENV PUGIXML_VER=1.12.1
 ENV FMT_VER=8.1.1
@@ -39,9 +39,10 @@ ENV LIBMATROSKA_VER=1.6.3
 
 ENV GETTEXT_VER=0.20.2
 ENV NLOHMANN_VER=3.10.5
+ENV PCRE2_VER=10.40
 
 
-COPY Makefile.libgnurx boost-1.79.0.patch gettext-0.20.2.conf.patch file-5.40.patch $SRC
+COPY Makefile.libgnurx boost-$BOOST_VER.patch gettext-$GETTEXT_VER.conf.patch file-$FILE_VER.patch $SRC
 
 RUN cd $SRC \
 \
@@ -62,6 +63,7 @@ RUN cd $SRC \
     && curl -L -O https://dl.matroska.org/downloads/libmatroska/libmatroska-$LIBMATROSKA_VER.tar.xz \
     && curl -L -O https://ftp.gnu.org/pub/gnu/gettext/gettext-$GETTEXT_VER.tar.gz \
     && curl -L -o nlohmann-json-$NLOHMANN_VER.zip https://github.com/nlohmann/json/releases/download/v$NLOHMANN_VER/include.zip \
+    && curl -L -O https://github.com/PCRE2Project/pcre2/archive/pcre2-$PCRE2_VER.tar.gz \
 \
     && /bin/bash -c \
     '\
@@ -124,7 +126,7 @@ ARG BUILDROOT=/opt/mingw32/_buildroot
 ARG PREFIX=${MINGW32_SEARCH_PATH}/$HOST
 
 
-#ARG PKG_CONFIG_PATH=${PREFIX}/lib/pkgconfig/
+# ARG PKG_CONFIG_PATH=${PREFIX}/lib/pkgconfig/
 
 ARG CFLAGS="${CFLAGS} -I${PREFIX}/include"
 ARG CXXFLAGS="${CXXFLAGS} -I${PREFIX}/include"
@@ -296,6 +298,12 @@ RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
     && CXX=g++ AR=ar STRIP=strip CXXFLAGS= LDFLAGS= meson --prefix=$PREFIX --libdir=lib builddir \
     && ninja -C builddir install \
     && cd $PREFIX && tar Jcvf nlohmann-json-$NLOHMANN_VER.$ARCH.tar.xz include/ lib/ \
+    && rm -rf include/ lib/ \
+\
+    && mkdir -p $BUILDROOT/pcre2-$PCRE2_VER && cd $BUILDROOT/pcre2-$PCRE2_VER \
+    && cmake -G "Unix Makefiles" -DCMAKE_SYSTEM_NAME=Windows -DCMAKE_INSTALL_PREFIX=$PREFIX $SRC/pcre2-$PCRE2_VER \
+    && make -j `nproc` && make install \
+    && cd $PREFIX && tar Jcvf pcre2-$PCRE2_VER.$ARCH.tar.xz include/ lib/ \
     && rm -rf include/ lib/
 
 
@@ -324,7 +332,7 @@ ARG BUILDROOT=/opt/mingw32/_buildroot
 ARG PREFIX=${MINGW32_SEARCH_PATH}/$HOST
 
 
-#ARG PKG_CONFIG_PATH=${PREFIX}/lib/pkgconfig/
+# ARG PKG_CONFIG_PATH="${PREFIX}/lib/pkgconfig/:${PREFIX}/lib64/pkgconfig/"
 
 ARG CFLAGS="${CFLAGS} -I${PREFIX}/include"
 ARG CXXFLAGS="${CXXFLAGS} -I${PREFIX}/include"
@@ -496,6 +504,12 @@ RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
     && CXX=g++ AR=ar STRIP=strip CXXFLAGS= LDFLAGS= meson --prefix=$PREFIX --libdir=lib builddir \
     && ninja -C builddir install \
     && cd $PREFIX && tar Jcvf nlohmann-json-$NLOHMANN_VER.$ARCH.tar.xz include/ lib/ \
+    && rm -rf include/ lib/ \
+\
+    && mkdir -p $BUILDROOT/pcre2-$PCRE2_VER && cd $BUILDROOT/pcre2-$PCRE2_VER \
+    && cmake -G "Unix Makefiles" -DCMAKE_SYSTEM_NAME=Windows -DCMAKE_INSTALL_PREFIX=$PREFIX $SRC/pcre2-$PCRE2_VER \
+    && make -j `nproc` && make install \
+    && cd $PREFIX && tar Jcvf pcre2-$PCRE2_VER.$ARCH.tar.xz include/ lib/ \
     && rm -rf include/ lib/
 
 
