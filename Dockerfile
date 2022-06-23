@@ -28,9 +28,9 @@ ENV LIBICONV_VER=1.17
 ENV BOOST_VER=1.79.0
 ENV OGG_VER=1.3.5
 ENV VORBIS_VER=1.3.7
-ENV FLAC_VER=1.3.4
+ENV FLAC_VER=1.3.3
 ENV LIBGNURX_VER=2.5.1
-ENV FILE_VER=5.40
+ENV FILE_VER=5.24
 ENV PUGIXML_VER=1.12.1
 ENV FMT_VER=8.1.1
 
@@ -107,8 +107,9 @@ FROM builder AS build_i686
 ARG HOST=i686-w64-mingw32
 ARG ARCH=i686
 
-ARG CFLAGS="-m32 -march=i686 -mno-ms-bitfields -DWINVER=0x0601 -D_WIN32_WINNT=0x0601  -D_FILE_OFFSET_BITS=64 -fstack-protector-strong"
-ARG CXXFLAGS="-m32 -march=i686 -mno-ms-bitfields -DWINVER=0x0601 -D_WIN32_WINNT=0x0601  -D_FILE_OFFSET_BITS=64 -fstack-protector-strong"
+ARG CFLAGS="-m32 -march=i686 -mno-ms-bitfields -fstack-protector-strong"
+ARG CXXFLAGS="-m32 -march=i686 -mno-ms-bitfields -fstack-protector-strong"
+ARG CPPFLAGS="-DWINVER=0x0601 -D_WIN32_WINNT=0x0601 -D_FILE_OFFSET_BITS=64"
 ARG LDFLAGS="-m32 -march=i686 -fstack-protector-strong"
 
 ARG WINDRES_FLAGS="-F pe-i386"
@@ -126,7 +127,7 @@ ARG BUILDROOT=/opt/mingw32/_buildroot
 ARG PREFIX=${MINGW32_SEARCH_PATH}/$HOST
 
 
-# ARG PKG_CONFIG_PATH=${PREFIX}/lib/pkgconfig/
+# ARG PKG_CONFIG_PATH="${PREFIX}/lib/pkgconfig/:${PREFIX}/lib32/pkgconfig/"
 
 ARG CFLAGS="${CFLAGS} -I${PREFIX}/include"
 ARG CXXFLAGS="${CXXFLAGS} -I${PREFIX}/include"
@@ -313,8 +314,9 @@ FROM builder AS build_x86_64
 ARG HOST=x86_64-w64-mingw32
 ARG ARCH=x86_64
 
-ARG CFLAGS="-m64 -mno-ms-bitfields -DWINVER=0x0601 -D_WIN32_WINNT=0x0601 -D_FILE_OFFSET_BITS=64 -fstack-protector-strong"
-ARG CXXFLAGS="-m64 -mno-ms-bitfields -DWINVER=0x0601 -D_WIN32_WINNT=0x0601 -D_FILE_OFFSET_BITS=64 -fstack-protector-strong"
+ARG CFLAGS="-m64 -mno-ms-bitfields -fstack-protector-strong"
+ARG CXXFLAGS="-m64 -mno-ms-bitfields -fstack-protector-strong"
+ARG CPPFLAGS="-DWINVER=0x0601 -D_WIN32_WINNT=0x0601 -D_FILE_OFFSET_BITS=64"
 ARG LDFLAGS="-m64 -fstack-protector-strong"
 
 ARG WINDRES_FLAGS="-F pe-x86-64"
