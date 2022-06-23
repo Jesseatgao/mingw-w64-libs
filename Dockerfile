@@ -1,5 +1,8 @@
+# MINGW_W64_IMG := cgdoc/mingw-w64-multilib:win32-vX.Y | cgdoc/mingw-w64-multilib:posix-vX.Y
+ARG MINGW_W64_IMG=cgdoc/mingw-w64-multilib:win32-v1.4
+
 ################### Stage: Prepare the sources to compile ######################
-FROM cgdoc/mingw-w64-multilib:win32-v1.4 AS builder
+FROM $MINGW_W64_IMG AS builder
 
 
 ENV BUILD=x86_64-unknown-linux-gnu
@@ -127,7 +130,7 @@ ARG BUILDROOT=/opt/mingw32/_buildroot
 ARG PREFIX=${MINGW32_SEARCH_PATH}/$HOST
 
 
-# ARG PKG_CONFIG_PATH=${PREFIX}/lib/pkgconfig/
+# ARG PKG_CONFIG_PATH="${PREFIX}/lib/pkgconfig/:${PREFIX}/lib32/pkgconfig/"
 
 ARG CFLAGS="${CFLAGS} -I${PREFIX}/include"
 ARG CXXFLAGS="${CXXFLAGS} -I${PREFIX}/include"
