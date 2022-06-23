@@ -28,9 +28,9 @@ ENV LIBICONV_VER=1.17
 ENV BOOST_VER=1.79.0
 ENV OGG_VER=1.3.5
 ENV VORBIS_VER=1.3.7
-ENV FLAC_VER=1.3.4
+ENV FLAC_VER=1.3.3
 ENV LIBGNURX_VER=2.5.1
-ENV FILE_VER=5.40
+ENV FILE_VER=5.24
 ENV PUGIXML_VER=1.12.1
 ENV FMT_VER=8.1.1
 
@@ -56,7 +56,7 @@ RUN cd $SRC \
     && curl -L -O https://ftp.osuosl.org/pub/xiph/releases/vorbis/libvorbis-$VORBIS_VER.tar.xz \
     && curl -L -O https://ftp.osuosl.org/pub/xiph/releases/flac/flac-$FLAC_VER.tar.xz \
     && curl -L -o mingw-libgnurx-$LIBGNURX_VER.tar.gz https://github.com/TimothyGu/libgnurx/archive/libgnurx-$LIBGNURX_VER.tar.gz \
-    && curl -L -O https://distfiles.macports.org/file/file-$FILE_VER.tar.gz \
+    && curl -L -o file-$FILE_VER.tar.gz https://github.com/file/file/archive/FILE$(echo $FILE_VER|sed 's/\./_/g').tar.gz \
     && curl -L -O https://github.com/zeux/pugixml/releases/download/v$PUGIXML_VER/pugixml-$PUGIXML_VER.tar.gz \
     && curl -L -o fmt-$FMT_VER.tar.gz https://github.com/fmtlib/fmt/archive/$FMT_VER.tar.gz \
     && curl -L -O https://dl.matroska.org/downloads/libebml/libebml-$LIBEBML_VER.tar.xz \
@@ -107,8 +107,9 @@ FROM builder AS build_i686
 ARG HOST=i686-w64-mingw32
 ARG ARCH=i686
 
-ARG CFLAGS="-m32 -march=i686 -mno-ms-bitfields -DWINVER=0x0601 -D_WIN32_WINNT=0x0601  -D_FILE_OFFSET_BITS=64 -fstack-protector-strong"
-ARG CXXFLAGS="-m32 -march=i686 -mno-ms-bitfields -DWINVER=0x0601 -D_WIN32_WINNT=0x0601  -D_FILE_OFFSET_BITS=64 -fstack-protector-strong"
+ARG CFLAGS="-m32 -march=i686 -mno-ms-bitfields -fstack-protector-strong"
+ARG CXXFLAGS="-m32 -march=i686 -mno-ms-bitfields -fstack-protector-strong"
+ARG CPPFLAGS="-DWINVER=0x0601 -D_WIN32_WINNT=0x0601 -D_FILE_OFFSET_BITS=64"
 ARG LDFLAGS="-m32 -march=i686 -fstack-protector-strong"
 
 ARG WINDRES_FLAGS="-F pe-i386"
@@ -313,8 +314,9 @@ FROM builder AS build_x86_64
 ARG HOST=x86_64-w64-mingw32
 ARG ARCH=x86_64
 
-ARG CFLAGS="-m64 -mno-ms-bitfields -DWINVER=0x0601 -D_WIN32_WINNT=0x0601 -D_FILE_OFFSET_BITS=64 -fstack-protector-strong"
-ARG CXXFLAGS="-m64 -mno-ms-bitfields -DWINVER=0x0601 -D_WIN32_WINNT=0x0601 -D_FILE_OFFSET_BITS=64 -fstack-protector-strong"
+ARG CFLAGS="-m64 -mno-ms-bitfields -fstack-protector-strong"
+ARG CXXFLAGS="-m64 -mno-ms-bitfields -fstack-protector-strong"
+ARG CPPFLAGS="-DWINVER=0x0601 -D_WIN32_WINNT=0x0601 -D_FILE_OFFSET_BITS=64"
 ARG LDFLAGS="-m64 -fstack-protector-strong"
 
 ARG WINDRES_FLAGS="-F pe-x86-64"

@@ -19,9 +19,9 @@ Common static libs prebuilt by the cross-compilation toolchain docker images [`c
 * boost-1.79.0
 * bzip2-1.0.8
 * expat-2.4.8
-* file-5.40
+* file-5.24
 * fmt-8.1.1
-* flac-1.3.4
+* flac-1.3.3
 * libiconv-1.17
 * libogg-1.3.5
 * libvorbis-1.3.7
