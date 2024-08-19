@@ -51,7 +51,7 @@ RUN cd $SRC \
 \
     && curl -L -O https://sourceforge.net/projects/lzmautils/files/xz-$XZ_VER.tar.bz2 \
     && curl -L -O https://sourceware.org/pub/bzip2/bzip2-$BZIP2_VER.tar.gz \
-    && curl -L -O https://zlib.net/zlib-$ZLIB_VER.tar.xz \
+    && curl -L -O https://zlib.net/fossils/zlib-$ZLIB_VER.tar.gz \
     && curl -L -O https://sourceforge.net/projects/expat/files/expat/$EXPAT_VER/expat-$EXPAT_VER.tar.bz2 \
     && curl -L -O https://ftp.gnu.org/pub/gnu/libiconv/libiconv-$LIBICONV_VER.tar.gz \
     && curl -L -o boost-$BOOST_VER.tar.bz2 https://sourceforge.net/projects/boost/files/boost/$BOOST_VER/boost_$(echo $BOOST_VER|sed 's/\./_/g').tar.bz2 \
