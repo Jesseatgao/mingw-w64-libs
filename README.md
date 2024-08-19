@@ -1,20 +1,20 @@
 # mingw-w64-libs
 Common static libs prebuilt by the cross-compilation toolchain docker images [`cgdoc/mingw-w64-multilib`](https://hub.docker.com/repository/docker/cgdoc/mingw-w64-multilib)
 ## [Libs Docker Images](https://hub.docker.com/repository/docker/cgdoc/mingw-w64-libs)
-* `cgdoc/mingw-w64-libs:win32v1.4-v1.0`
+* `cgdoc/mingw-w64-libs:win32v1.5-v1.0`
     * Source
-        * [Dockerfile](https://github.com/Jesseatgao/mingw-w64-libs/releases/tag/win32v1.4-v1.0)
+        * [Dockerfile](https://github.com/Jesseatgao/mingw-w64-libs/releases/tag/win32v1.5-v1.0)
     * Base Docker Image
         * `alpine:latest`
     * Builder Docker Image
-        * `cgdoc/mingw-w64-multilib:win32-v1.4`
-* `cgdoc/mingw-w64-libs:posixv1.4-v1.0`
+        * `cgdoc/mingw-w64-multilib:win32-v1.5`
+* `cgdoc/mingw-w64-libs:posixv1.5-v1.0`
     * Source
-        * [Dockerfile](https://github.com/Jesseatgao/mingw-w64-libs/releases/tag/posixv1.4-v1.0)
+        * [Dockerfile](https://github.com/Jesseatgao/mingw-w64-libs/releases/tag/posixv1.5-v1.0)
     * Base Docker Image
         * `alpine:latest`
     * Builder Docker Image
-        * `cgdoc/mingw-w64-multilib:posix-v1.4`
+        * `cgdoc/mingw-w64-multilib:posix-v1.5`
 ## Index
 * boost-1.79.0
 * bzip2-1.0.8

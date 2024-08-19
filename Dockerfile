@@ -1,5 +1,8 @@
+# MINGW_W64_IMG := cgdoc/mingw-w64-multilib:win32-vX.Y | cgdoc/mingw-w64-multilib:posix-vX.Y
+ARG MINGW_W64_IMG=cgdoc/mingw-w64-multilib:win32-v1.5
+
 ################### Stage: Prepare the sources to compile ######################
-FROM cgdoc/mingw-w64-multilib:posix-v1.4 AS builder
+FROM $MINGW_W64_IMG AS builder
 
 
 ENV BUILD=x86_64-unknown-linux-gnu
@@ -48,14 +51,14 @@ RUN cd $SRC \
 \
     && curl -L -O https://sourceforge.net/projects/lzmautils/files/xz-$XZ_VER.tar.bz2 \
     && curl -L -O https://sourceware.org/pub/bzip2/bzip2-$BZIP2_VER.tar.gz \
-    && curl -L -O https://zlib.net/zlib-$ZLIB_VER.tar.xz \
-    && curl -L -O https://sourceforge.net/projects/expat/files/expat/$EXPAT_VER/expat-$EXPAT_VER.tar.bz2 \
+    && curl -L -O https://zlib.net/fossils/zlib-$ZLIB_VER.tar.gz \
+    && curl -L -O https://distfiles.macports.org/expat/expat-$EXPAT_VER.tar.bz2 \
     && curl -L -O https://ftp.gnu.org/pub/gnu/libiconv/libiconv-$LIBICONV_VER.tar.gz \
     && curl -L -o boost-$BOOST_VER.tar.bz2 https://sourceforge.net/projects/boost/files/boost/$BOOST_VER/boost_$(echo $BOOST_VER|sed 's/\./_/g').tar.bz2 \
     && curl -L -O https://ftp.osuosl.org/pub/xiph/releases/ogg/libogg-$OGG_VER.tar.xz \
     && curl -L -O https://ftp.osuosl.org/pub/xiph/releases/vorbis/libvorbis-$VORBIS_VER.tar.xz \
     && curl -L -O https://ftp.osuosl.org/pub/xiph/releases/flac/flac-$FLAC_VER.tar.xz \
-    && curl -L -o mingw-libgnurx-$LIBGNURX_VER.tar.gz https://sourceforge.net/projects/mingw/files/Other/UserContributed/regex/mingw-regex-$LIBGNURX_VER/mingw-libgnurx-$LIBGNURX_VER-src.tar.gz \
+    && curl -L -o mingw-libgnurx-$LIBGNURX_VER.tar.gz https://github.com/TimothyGu/libgnurx/archive/libgnurx-$LIBGNURX_VER.tar.gz \
     && curl -L -o file-$FILE_VER.tar.gz https://github.com/file/file/archive/FILE$(echo $FILE_VER|sed 's/\./_/g').tar.gz \
     && curl -L -O https://github.com/zeux/pugixml/releases/download/v$PUGIXML_VER/pugixml-$PUGIXML_VER.tar.gz \
     && curl -L -o fmt-$FMT_VER.tar.gz https://github.com/fmtlib/fmt/archive/$FMT_VER.tar.gz \
