@@ -1,5 +1,5 @@
 # MINGW_W64_IMG := cgdoc/mingw-w64-multilib:win32-vX.Y | cgdoc/mingw-w64-multilib:posix-vX.Y
-ARG MINGW_W64_IMG=cgdoc/mingw-w64-multilib:posix-v1.5
+ARG MINGW_W64_IMG=cgdoc/mingw-w64-multilib:posix-v1.7
 
 ################### Stage: Prepare the sources to compile ######################
 FROM $MINGW_W64_IMG AS builder
@@ -49,12 +49,12 @@ COPY Makefile.libgnurx boost-$BOOST_VER.patch gettext-$GETTEXT_VER.conf.patch fi
 
 RUN cd $SRC \
 \
-    && curl -L -O https://sourceforge.net/projects/lzmautils/files/xz-$XZ_VER.tar.bz2 \
+    && curl -L -O https://distfiles.macports.org/xz/xz-$XZ_VER.tar.bz2 \
     && curl -L -O https://sourceware.org/pub/bzip2/bzip2-$BZIP2_VER.tar.gz \
     && curl -L -O https://zlib.net/fossils/zlib-$ZLIB_VER.tar.gz \
     && curl -L -O https://distfiles.macports.org/expat/expat-$EXPAT_VER.tar.bz2 \
     && curl -L -O https://ftp.gnu.org/pub/gnu/libiconv/libiconv-$LIBICONV_VER.tar.gz \
-    && curl -L -o boost-$BOOST_VER.tar.bz2 https://sourceforge.net/projects/boost/files/boost/$BOOST_VER/boost_$(echo $BOOST_VER|sed 's/\./_/g').tar.bz2 \
+    && curl -L -o boost-$BOOST_VER.tar.bz2 https://ftp2.osuosl.org/pub/blfs/conglomeration/boost/boost_$(echo $BOOST_VER|sed 's/\./_/g').tar.bz2 \
     && curl -L -O https://ftp.osuosl.org/pub/xiph/releases/ogg/libogg-$OGG_VER.tar.xz \
     && curl -L -O https://ftp.osuosl.org/pub/xiph/releases/vorbis/libvorbis-$VORBIS_VER.tar.xz \
     && curl -L -O https://ftp.osuosl.org/pub/xiph/releases/flac/flac-$FLAC_VER.tar.xz \
