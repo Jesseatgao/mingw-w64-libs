@@ -5,11 +5,11 @@ on:
     inputs:
       tags:
         description: The tags of the built image
-        default: cgdoc/mingw-w64-libs:win32v1.7-v1.0, cgdoc/mingw-w64-libs:latest
+        default: cgdoc/mingw-w64-libs:test-win32-v1.8-el9
         required: true
       builder:
         description: The tag of the docker builder image
-        default: cgdoc/mingw-w64-multilib:win32-v1.7
+        default: cgdoc/mingw-w64-multilib:win32-v1.8-el9
         required: true
 
 jobs:

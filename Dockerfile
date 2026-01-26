@@ -1,5 +1,5 @@
 # MINGW_W64_IMG := cgdoc/mingw-w64-multilib:win32-vX.Y | cgdoc/mingw-w64-multilib:posix-vX.Y
-ARG MINGW_W64_IMG=cgdoc/mingw-w64-multilib:win32-v1.7
+ARG MINGW_W64_IMG=cgdoc/mingw-w64-multilib:win32-v1.8-el9
 
 ################### Stage: Prepare the sources to compile ######################
 FROM $MINGW_W64_IMG AS builder
