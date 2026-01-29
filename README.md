@@ -1,7 +1,7 @@
 # mingw-w64-libs
 Common static libs prebuilt by the cross-compilation toolchain docker images [`cgdoc/mingw-w64-multilib`](https://hub.docker.com/repository/docker/cgdoc/mingw-w64-multilib)
 ## [Libs Docker Images](https://hub.docker.com/repository/docker/cgdoc/mingw-w64-libs)
-* `cgdoc/mingw-w64-libs:win32-v1.8-el9`
+* `cgdoc/mingw-w64-libs:win32v1.8el9-v1.0`
     * Source
         * [Dockerfile](https://github.com/Jesseatgao/mingw-w64-libs/releases/tag/win32v1.8el9-v1.0)
     * Base Docker Image
