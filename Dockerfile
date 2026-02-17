@@ -254,7 +254,7 @@ RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
     && make -j `nproc` \
     && cd $BUILDROOT/file-$FILE_VER \
     && mv ${MINGW32_SEARCH_PATH}/include $PREFIX/ && mv ${MINGW32_SEARCH_PATH}/lib $PREFIX/ \
-    && CFLAGS="${CFLAGS} -DHAVE_PREAD" LDFLAGS="${LDFLAGS}" $SRC/file-$FILE_VER/configure --prefix=$PREFIX --host=$HOST --build=$BUILD --enable-static=yes --disable-silent-rules --disable-shared \
+    && CFLAGS="${CFLAGS}" LDFLAGS="${LDFLAGS}" $SRC/file-$FILE_VER/configure --prefix=$PREFIX --host=$HOST --build=$BUILD --enable-static=yes --disable-silent-rules --disable-shared \
     && make -j `nproc` bin_PROGRAMS= sbin_PROGRAMS= noinst_PROGRAMS= man_MANS= FILE_COMPILE="$BUILDROOT/file-$FILE_VER/file-$FILE_VER.native/src/file" \
     && mv $PREFIX/include ${MINGW32_SEARCH_PATH} && mv $PREFIX/lib ${MINGW32_SEARCH_PATH} \
     && make install bin_PROGRAMS= sbin_PROGRAMS= noinst_PROGRAMS= man_MANS= \
@@ -461,7 +461,7 @@ RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
     && make -j `nproc` \
     && cd $BUILDROOT/file-$FILE_VER \
     && mv ${MINGW32_SEARCH_PATH}/include $PREFIX/ && mv ${MINGW32_SEARCH_PATH}/lib $PREFIX/ \
-    && CFLAGS="${CFLAGS} -DHAVE_PREAD" LDFLAGS="${LDFLAGS}" $SRC/file-$FILE_VER/configure --prefix=$PREFIX --host=$HOST --build=$BUILD --enable-static=yes --disable-silent-rules --disable-shared \
+    && CFLAGS="${CFLAGS}" LDFLAGS="${LDFLAGS}" $SRC/file-$FILE_VER/configure --prefix=$PREFIX --host=$HOST --build=$BUILD --enable-static=yes --disable-silent-rules --disable-shared \
     && make -j `nproc` bin_PROGRAMS= sbin_PROGRAMS= noinst_PROGRAMS= man_MANS= FILE_COMPILE="$BUILDROOT/file-$FILE_VER/file-$FILE_VER.native/src/file" \
     && mv $PREFIX/include ${MINGW32_SEARCH_PATH} && mv $PREFIX/lib ${MINGW32_SEARCH_PATH} \
     && make install bin_PROGRAMS= sbin_PROGRAMS= noinst_PROGRAMS= man_MANS= \
