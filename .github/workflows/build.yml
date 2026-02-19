@@ -5,7 +5,7 @@ on:
     inputs:
       tags:
         description: The tags of the built image
-        default: cgdoc/mingw-w64-libs:test-posix-v1.8-el9
+        default: cgdoc/mingw-w64-libs:test-posixv1.8el9-v1.0
         required: true
       builder:
         description: The tag of the docker builder image
