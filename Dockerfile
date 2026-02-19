@@ -110,7 +110,7 @@ FROM builder AS build_i686
 ARG HOST=i686-w64-mingw32
 ARG ARCH=i686
 
-ARG CFLAGS="-m32 -march=i686 -mno-ms-bitfields -fstack-protector-strong"
+ARG CFLAGS="-m32 -march=i686 -mno-ms-bitfields -fstack-protector-strong  -std=gnu17  -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=return-mismatch"
 ARG CXXFLAGS="-m32 -march=i686 -mno-ms-bitfields -fstack-protector-strong"
 ARG CPPFLAGS="-DWINVER=0x0601 -D_WIN32_WINNT=0x0601 -D_FILE_OFFSET_BITS=64"
 ARG LDFLAGS="-m32 -march=i686 -fstack-protector-strong"
@@ -132,8 +132,7 @@ ARG PREFIX=${MINGW32_SEARCH_PATH}/$HOST
 
 # ARG PKG_CONFIG_PATH="${PREFIX}/lib/pkgconfig/:${PREFIX}/lib32/pkgconfig/"
 
-ARG CFLAGS="${CFLAGS} -I${PREFIX}/include -I${MINGW32_SEARCH_PATH}/include"
-ARG CXXFLAGS="${CXXFLAGS} -I${PREFIX}/include -I${MINGW32_SEARCH_PATH}/include"
+ARG CPPFLAGS="${CPPFLAGS} -I${PREFIX}/include -I${MINGW32_SEARCH_PATH}/include"
 ARG LDFLAGS="${LDFLAGS} -L${PREFIX}/lib -L${MINGW32_SEARCH_PATH}/lib"
 
 
@@ -254,7 +253,7 @@ RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
     && make -j `nproc` \
     && cd $BUILDROOT/file-$FILE_VER \
     && mv ${MINGW32_SEARCH_PATH}/include $PREFIX/ && mv ${MINGW32_SEARCH_PATH}/lib $PREFIX/ \
-    && CFLAGS="${CFLAGS} -DHAVE_PREAD" LDFLAGS="${LDFLAGS}" $SRC/file-$FILE_VER/configure --prefix=$PREFIX --host=$HOST --build=$BUILD --enable-static=yes --disable-silent-rules --disable-shared \
+    && CFLAGS="${CFLAGS}" LDFLAGS="${LDFLAGS}" $SRC/file-$FILE_VER/configure --prefix=$PREFIX --host=$HOST --build=$BUILD --enable-static=yes --disable-silent-rules --disable-shared \
     && make -j `nproc` bin_PROGRAMS= sbin_PROGRAMS= noinst_PROGRAMS= man_MANS= FILE_COMPILE="$BUILDROOT/file-$FILE_VER/file-$FILE_VER.native/src/file" \
     && mv $PREFIX/include ${MINGW32_SEARCH_PATH} && mv $PREFIX/lib ${MINGW32_SEARCH_PATH} \
     && make install bin_PROGRAMS= sbin_PROGRAMS= noinst_PROGRAMS= man_MANS= \
@@ -317,7 +316,7 @@ FROM builder AS build_x86_64
 ARG HOST=x86_64-w64-mingw32
 ARG ARCH=x86_64
 
-ARG CFLAGS="-m64 -mno-ms-bitfields -fstack-protector-strong"
+ARG CFLAGS="-m64 -mno-ms-bitfields -fstack-protector-strong  -std=gnu17  -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=return-mismatch"
 ARG CXXFLAGS="-m64 -mno-ms-bitfields -fstack-protector-strong"
 ARG CPPFLAGS="-DWINVER=0x0601 -D_WIN32_WINNT=0x0601 -D_FILE_OFFSET_BITS=64"
 ARG LDFLAGS="-m64 -fstack-protector-strong"
@@ -339,8 +338,7 @@ ARG PREFIX=${MINGW32_SEARCH_PATH}/$HOST
 
 # ARG PKG_CONFIG_PATH="${PREFIX}/lib/pkgconfig/:${PREFIX}/lib64/pkgconfig/"
 
-ARG CFLAGS="${CFLAGS} -I${PREFIX}/include -I${MINGW32_SEARCH_PATH}/include"
-ARG CXXFLAGS="${CXXFLAGS} -I${PREFIX}/include -I${MINGW32_SEARCH_PATH}/include"
+ARG CPPFLAGS="${CPPFLAGS} -I${PREFIX}/include -I${MINGW32_SEARCH_PATH}/include"
 ARG LDFLAGS="${LDFLAGS} -L${PREFIX}/lib -L${MINGW32_SEARCH_PATH}/lib"
 
 
@@ -461,7 +459,7 @@ RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
     && make -j `nproc` \
     && cd $BUILDROOT/file-$FILE_VER \
     && mv ${MINGW32_SEARCH_PATH}/include $PREFIX/ && mv ${MINGW32_SEARCH_PATH}/lib $PREFIX/ \
-    && CFLAGS="${CFLAGS} -DHAVE_PREAD" LDFLAGS="${LDFLAGS}" $SRC/file-$FILE_VER/configure --prefix=$PREFIX --host=$HOST --build=$BUILD --enable-static=yes --disable-silent-rules --disable-shared \
+    && CFLAGS="${CFLAGS}" LDFLAGS="${LDFLAGS}" $SRC/file-$FILE_VER/configure --prefix=$PREFIX --host=$HOST --build=$BUILD --enable-static=yes --disable-silent-rules --disable-shared \
     && make -j `nproc` bin_PROGRAMS= sbin_PROGRAMS= noinst_PROGRAMS= man_MANS= FILE_COMPILE="$BUILDROOT/file-$FILE_VER/file-$FILE_VER.native/src/file" \
     && mv $PREFIX/include ${MINGW32_SEARCH_PATH} && mv $PREFIX/lib ${MINGW32_SEARCH_PATH} \
     && make install bin_PROGRAMS= sbin_PROGRAMS= noinst_PROGRAMS= man_MANS= \
