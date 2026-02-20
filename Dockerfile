@@ -110,7 +110,7 @@ FROM builder AS build_i686
 ARG HOST=i686-w64-mingw32
 ARG ARCH=i686
 
-ARG CFLAGS="-m32 -march=i686 -mno-ms-bitfields -fstack-protector-strong  -std=gnu17  -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=return-mismatch"
+ARG CFLAGS="-m32 -march=i686 -mno-ms-bitfields -fstack-protector-strong  -std=gnu17 -fpermissive"
 ARG CXXFLAGS="-m32 -march=i686 -mno-ms-bitfields -fstack-protector-strong"
 ARG CPPFLAGS="-DWINVER=0x0601 -D_WIN32_WINNT=0x0601 -D_FILE_OFFSET_BITS=64"
 ARG LDFLAGS="-m32 -march=i686 -fstack-protector-strong"
@@ -316,7 +316,7 @@ FROM builder AS build_x86_64
 ARG HOST=x86_64-w64-mingw32
 ARG ARCH=x86_64
 
-ARG CFLAGS="-m64 -mno-ms-bitfields -fstack-protector-strong  -std=gnu17  -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=return-mismatch"
+ARG CFLAGS="-m64 -mno-ms-bitfields -fstack-protector-strong  -std=gnu17 -fpermissive"
 ARG CXXFLAGS="-m64 -mno-ms-bitfields -fstack-protector-strong"
 ARG CPPFLAGS="-DWINVER=0x0601 -D_WIN32_WINNT=0x0601 -D_FILE_OFFSET_BITS=64"
 ARG LDFLAGS="-m64 -fstack-protector-strong"
