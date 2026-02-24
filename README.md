@@ -1,20 +1,20 @@
 # mingw-w64-libs
 Common static libs prebuilt by the cross-compilation toolchain docker images [`cgdoc/mingw-w64-multilib`](https://hub.docker.com/repository/docker/cgdoc/mingw-w64-multilib)
 ## [Libs Docker Images](https://hub.docker.com/repository/docker/cgdoc/mingw-w64-libs)
-* `cgdoc/mingw-w64-libs:win32v1.7-v1.0`
+* `cgdoc/mingw-w64-libs:win32v1.8el9-v1.0`
     * Source
-        * [Dockerfile](https://github.com/Jesseatgao/mingw-w64-libs/releases/tag/win32v1.7-v1.0)
+        * [Dockerfile](https://github.com/Jesseatgao/mingw-w64-libs/releases/tag/win32v1.8el9-v1.0)
     * Base Docker Image
         * `alpine:latest`
     * Builder Docker Image
-        * `cgdoc/mingw-w64-multilib:win32-v1.7`
-* `cgdoc/mingw-w64-libs:posixv1.7-v1.0`
+        * `cgdoc/mingw-w64-multilib:win32-v1.8-el9`
+* `cgdoc/mingw-w64-libs:posixv1.8el9-v1.0`
     * Source
-        * [Dockerfile](https://github.com/Jesseatgao/mingw-w64-libs/releases/tag/posixv1.7-v1.0)
+        * [Dockerfile](https://github.com/Jesseatgao/mingw-w64-libs/releases/tag/posixv1.8el9-v1.0)
     * Base Docker Image
         * `alpine:latest`
     * Builder Docker Image
-        * `cgdoc/mingw-w64-multilib:posix-v1.7`
+        * `cgdoc/mingw-w64-multilib:posix-v1.8-el9`
 ## Index
 * boost-1.79.0
 * bzip2-1.0.8
@@ -25,7 +25,7 @@ Common static libs prebuilt by the cross-compilation toolchain docker images [`c
 * libiconv-1.17
 * libogg-1.3.5
 * libvorbis-1.3.7
-* libebml-1.4.2
+* libebml-1.4.3
 * libmatroska-1.6.3
 * libintl-0.20.2 (gettext-0.20.2)
 * mingw-libgnurx-2.5.1
