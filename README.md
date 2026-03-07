@@ -8,13 +8,13 @@ Common static libs prebuilt by the cross-compilation toolchain docker images [`c
         * `alpine:latest`
     * Builder Docker Image
         * `cgdoc/mingw-w64-multilib:win32-v1.8-el9`
-* `cgdoc/mingw-w64-libs:posixv1.7-v1.0`
+* `cgdoc/mingw-w64-libs:posixv1.8el9-v1.0`
     * Source
-        * [Dockerfile](https://github.com/Jesseatgao/mingw-w64-libs/releases/tag/posixv1.7-v1.0)
+        * [Dockerfile](https://github.com/Jesseatgao/mingw-w64-libs/releases/tag/posixv1.8el9-v1.0)
     * Base Docker Image
         * `alpine:latest`
     * Builder Docker Image
-        * `cgdoc/mingw-w64-multilib:posix-v1.7`
+        * `cgdoc/mingw-w64-multilib:posix-v1.8-el9`
 ## Index
 * boost-1.79.0
 * bzip2-1.0.8
