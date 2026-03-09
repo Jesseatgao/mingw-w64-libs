@@ -23,29 +23,29 @@ ENV NM=$MINGW32-nm
 ENV SRC=/opt/_src/
 
 
-ENV XZ_VER=5.2.5
+ENV XZ_VER=5.8.2
 ENV BZIP2_VER=1.0.8
-ENV ZLIB_VER=1.2.12
-ENV EXPAT_VER=2.4.8
-ENV LIBICONV_VER=1.17
-ENV BOOST_VER=1.79.0
-ENV OGG_VER=1.3.5
+ENV ZLIB_VER=1.3.2
+ENV EXPAT_VER=2.7.4
+ENV LIBICONV_VER=1.18
+ENV BOOST_VER=1.90.0
+ENV OGG_VER=1.3.6
 ENV VORBIS_VER=1.3.7
-ENV FLAC_VER=1.3.3
-ENV LIBGNURX_VER=2.5.1
-ENV FILE_VER=5.24
-ENV PUGIXML_VER=1.12.1
-ENV FMT_VER=8.1.1
+ENV FLAC_VER=1.5.0
+ENV LIBGNURX_VER=2.6.1
+ENV FILE_VER=5.47
+ENV PUGIXML_VER=1.15
+ENV FMT_VER=12.1.0
 
-ENV LIBEBML_VER=1.4.3
-ENV LIBMATROSKA_VER=1.6.3
+ENV LIBEBML_VER=1.4.4
+ENV LIBMATROSKA_VER=1.7.1
 
-ENV GETTEXT_VER=0.20.2
-ENV NLOHMANN_VER=3.10.5
-ENV PCRE2_VER=10.40
+ENV GETTEXT_VER=1.0
+ENV NLOHMANN_VER=3.12.0
+ENV PCRE2_VER=10.47
 
 
-COPY Makefile.libgnurx boost-$BOOST_VER.patch gettext-$GETTEXT_VER.conf.patch file-$FILE_VER.patch $SRC
+COPY Makefile.libgnurx $SRC
 
 RUN cd $SRC \
 \
@@ -54,7 +54,7 @@ RUN cd $SRC \
     && curl -L -O https://zlib.net/fossils/zlib-$ZLIB_VER.tar.gz \
     && curl -L -O https://distfiles.macports.org/expat/expat-$EXPAT_VER.tar.bz2 \
     && curl -L -O https://ftp.gnu.org/pub/gnu/libiconv/libiconv-$LIBICONV_VER.tar.gz \
-    && curl -L -o boost-$BOOST_VER.tar.bz2 https://ftp2.osuosl.org/pub/blfs/conglomeration/boost/boost_$(echo $BOOST_VER|sed 's/\./_/g').tar.bz2 \
+    && curl -L -o boost-$BOOST_VER.tar.bz2 https://archives.boost.io/release/$BOOST_VER/source/boost_$(echo $BOOST_VER|sed 's/\./_/g').tar.bz2 \
     && curl -L -O https://ftp.osuosl.org/pub/xiph/releases/ogg/libogg-$OGG_VER.tar.xz \
     && curl -L -O https://ftp.osuosl.org/pub/xiph/releases/vorbis/libvorbis-$VORBIS_VER.tar.xz \
     && curl -L -O https://ftp.osuosl.org/pub/xiph/releases/flac/flac-$FLAC_VER.tar.xz \
