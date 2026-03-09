@@ -171,7 +171,7 @@ RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
 \
     && cd $SRC/boost-$BOOST_VER \
     && echo "using gcc : mingw : ${MINGW32}-g++ : <rc>\"$WINDRES\" <archiver>${MINGW32}-ar <ranlib>${MINGW32}-ranlib <cxxflags>\"${CXXFLAGS}\" <linkflags>\"${LDFLAGS}\" ;" > user-config.jam \
-    && cd tools/build && CXX=g++ CXXFLAGS= LDFLAGS= ./bootstrap.sh \
+    && cd tools/build && CXX=g++ CXXFLAGS= LDFLAGS= WINDRES=windres ./bootstrap.sh \
     && cd ../../ && ./tools/build/b2 \
         -a \
         -q \
@@ -377,7 +377,7 @@ RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
 \
     && cd $SRC/boost-$BOOST_VER \
     && echo "using gcc : mingw : ${MINGW32}-g++ : <rc>\"$WINDRES\" <archiver>${MINGW32}-ar <ranlib>${MINGW32}-ranlib <cxxflags>\"${CXXFLAGS}\" <linkflags>\"${LDFLAGS}\" ;" > user-config.jam \
-    && cd tools/build && CXX=g++ CXXFLAGS= LDFLAGS= ./bootstrap.sh \
+    && cd tools/build && CXX=g++ CXXFLAGS= LDFLAGS= WINDRES=windres ./bootstrap.sh \
     && cd ../../ && ./tools/build/b2 \
         -a \
         -q \
