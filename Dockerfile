@@ -139,7 +139,7 @@ ARG LDFLAGS="${LDFLAGS} -L${PREFIX}/lib -L${MINGW32_SEARCH_PATH}/lib"
 RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
 \
     && mkdir -p $BUILDROOT/xz-$XZ_VER && cd $BUILDROOT/xz-$XZ_VER \
-    && $SRC/xz-$XZ_VER/configure --prefix=$PREFIX --host=$HOST --build=$BUILD --enable-static=yes \
+    && $SRC/xz-$XZ_VER/configure --prefix=$PREFIX --host=$HOST --build=$BUILD --enable-static=yes SKIP_WERROR_CHECK=yes \
     && make -C src/liblzma -j `nproc` install \
     && cd $PREFIX && tar Jcvf xz-$XZ_VER.$ARCH.tar.xz include/ lib/ \
     && cp -rf include/ lib/ ${MINGW32_SEARCH_PATH} && rm -rf include/ lib/ \
@@ -345,7 +345,7 @@ ARG LDFLAGS="${LDFLAGS} -L${PREFIX}/lib -L${MINGW32_SEARCH_PATH}/lib"
 RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
 \
     && mkdir -p $BUILDROOT/xz-$XZ_VER && cd $BUILDROOT/xz-$XZ_VER \
-    && $SRC/xz-$XZ_VER/configure --prefix=$PREFIX --host=$HOST --build=$BUILD --enable-static=yes \
+    && $SRC/xz-$XZ_VER/configure --prefix=$PREFIX --host=$HOST --build=$BUILD --enable-static=yes SKIP_WERROR_CHECK=yes \
     && make -C src/liblzma -j `nproc` install \
     && cd $PREFIX && tar Jcvf xz-$XZ_VER.$ARCH.tar.xz include/ lib/ \
     && cp -rf include/ lib/ ${MINGW32_SEARCH_PATH} && rm -rf include/ lib/ \
