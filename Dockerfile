@@ -224,7 +224,7 @@ RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
     && mkdir -p $BUILDROOT/libvorbis-$VORBIS_VER && cd $BUILDROOT/libvorbis-$VORBIS_VER \
     && mv ${MINGW32_SEARCH_PATH}/include $PREFIX && mv ${MINGW32_SEARCH_PATH}/lib $PREFIX \
     && $SRC/libvorbis-$VORBIS_VER/configure --prefix=$PREFIX --host=$HOST --enable-static=yes --enable-shared=no \
-        --with-ogg=$PREFIX --enable-docs=no \
+        --enable-docs=no \
     && make -j `nproc` \
     && mv $PREFIX/include ${MINGW32_SEARCH_PATH} && mv $PREFIX/lib ${MINGW32_SEARCH_PATH} \
     && make install \
@@ -234,7 +234,7 @@ RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
     && mkdir -p $BUILDROOT/flac-$FLAC_VER && cd $BUILDROOT/flac-$FLAC_VER \
     && mv ${MINGW32_SEARCH_PATH}/include $PREFIX && mv ${MINGW32_SEARCH_PATH}/lib $PREFIX \
     && $SRC/flac-$FLAC_VER/configure --prefix=$PREFIX --host=$HOST --enable-static=yes --enable-shared=no \
-        --enable-ogg --with-ogg=$PREFIX --disable-doxygen-docs --disable-xmms-plugin \
+        --enable-ogg --disable-doxygen-docs --disable-xmms-plugin \
     && make -j `nproc` \
     && mv $PREFIX/include ${MINGW32_SEARCH_PATH} && mv $PREFIX/lib ${MINGW32_SEARCH_PATH} \
     && make install \
@@ -430,7 +430,7 @@ RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
     && mkdir -p $BUILDROOT/libvorbis-$VORBIS_VER && cd $BUILDROOT/libvorbis-$VORBIS_VER \
     && mv ${MINGW32_SEARCH_PATH}/include $PREFIX && mv ${MINGW32_SEARCH_PATH}/lib $PREFIX \
     && $SRC/libvorbis-$VORBIS_VER/configure --prefix=$PREFIX --host=$HOST --enable-static=yes --enable-shared=no \
-        --with-ogg=$PREFIX --enable-docs=no \
+        --enable-docs=no \
     && make -j `nproc` \
     && mv $PREFIX/include ${MINGW32_SEARCH_PATH} && mv $PREFIX/lib ${MINGW32_SEARCH_PATH} \
     && make install \
@@ -440,7 +440,7 @@ RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
     && mkdir -p $BUILDROOT/flac-$FLAC_VER && cd $BUILDROOT/flac-$FLAC_VER \
     && mv ${MINGW32_SEARCH_PATH}/include $PREFIX && mv ${MINGW32_SEARCH_PATH}/lib $PREFIX \
     && $SRC/flac-$FLAC_VER/configure --prefix=$PREFIX --host=$HOST --enable-static=yes --enable-shared=no \
-        --enable-ogg --with-ogg=$PREFIX --disable-doxygen-docs --disable-xmms-plugin \
+        --enable-ogg --disable-doxygen-docs --disable-xmms-plugin \
     && make -j `nproc` \
     && mv $PREFIX/include ${MINGW32_SEARCH_PATH} && mv $PREFIX/lib ${MINGW32_SEARCH_PATH} \
     && make install \
