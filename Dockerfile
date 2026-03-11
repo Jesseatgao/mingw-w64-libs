@@ -23,29 +23,29 @@ ENV NM=$MINGW32-nm
 ENV SRC=/opt/_src/
 
 
-ENV XZ_VER=5.2.5
+ENV XZ_VER=5.8.2
 ENV BZIP2_VER=1.0.8
-ENV ZLIB_VER=1.2.12
-ENV EXPAT_VER=2.4.8
-ENV LIBICONV_VER=1.17
-ENV BOOST_VER=1.79.0
-ENV OGG_VER=1.3.5
+ENV ZLIB_VER=1.3.2
+ENV EXPAT_VER=2.7.4
+ENV LIBICONV_VER=1.18
+ENV BOOST_VER=1.90.0
+ENV OGG_VER=1.3.6
 ENV VORBIS_VER=1.3.7
-ENV FLAC_VER=1.3.3
-ENV LIBGNURX_VER=2.5.1
-ENV FILE_VER=5.24
-ENV PUGIXML_VER=1.12.1
-ENV FMT_VER=8.1.1
+ENV FLAC_VER=1.5.0
+ENV LIBGNURX_VER=2.6.1
+ENV FILE_VER=5.47
+ENV PUGIXML_VER=1.15
+ENV FMT_VER=12.1.0
 
-ENV LIBEBML_VER=1.4.3
-ENV LIBMATROSKA_VER=1.6.3
+ENV LIBEBML_VER=1.4.4
+ENV LIBMATROSKA_VER=1.7.1
 
-ENV GETTEXT_VER=0.20.2
-ENV NLOHMANN_VER=3.10.5
-ENV PCRE2_VER=10.40
+ENV GETTEXT_VER=1.0
+ENV NLOHMANN_VER=3.12.0
+ENV PCRE2_VER=10.47
 
 
-COPY Makefile.libgnurx boost-$BOOST_VER.patch gettext-$GETTEXT_VER.conf.patch file-$FILE_VER.patch $SRC
+COPY Makefile.libgnurx $SRC
 
 RUN cd $SRC \
 \
@@ -54,7 +54,7 @@ RUN cd $SRC \
     && curl -L -O https://zlib.net/fossils/zlib-$ZLIB_VER.tar.gz \
     && curl -L -O https://distfiles.macports.org/expat/expat-$EXPAT_VER.tar.bz2 \
     && curl -L -O https://ftp.gnu.org/pub/gnu/libiconv/libiconv-$LIBICONV_VER.tar.gz \
-    && curl -L -o boost-$BOOST_VER.tar.bz2 https://ftp2.osuosl.org/pub/blfs/conglomeration/boost/boost_$(echo $BOOST_VER|sed 's/\./_/g').tar.bz2 \
+    && curl -L -o boost-$BOOST_VER.tar.bz2 https://archives.boost.io/release/$BOOST_VER/source/boost_$(echo $BOOST_VER|sed 's/\./_/g').tar.bz2 \
     && curl -L -O https://ftp.osuosl.org/pub/xiph/releases/ogg/libogg-$OGG_VER.tar.xz \
     && curl -L -O https://ftp.osuosl.org/pub/xiph/releases/vorbis/libvorbis-$VORBIS_VER.tar.xz \
     && curl -L -O https://ftp.osuosl.org/pub/xiph/releases/flac/flac-$FLAC_VER.tar.xz \
@@ -111,7 +111,7 @@ ARG HOST=i686-w64-mingw32
 ARG ARCH=i686
 
 ARG CFLAGS="-m32 -march=i686 -mno-ms-bitfields -fstack-protector-strong  -std=gnu17 -fpermissive"
-ARG CXXFLAGS="-m32 -march=i686 -mno-ms-bitfields -fstack-protector-strong"
+ARG CXXFLAGS="-m32 -march=i686 -mno-ms-bitfields -fstack-protector-strong -fpermissive"
 ARG CPPFLAGS="-DWINVER=0x0601 -D_WIN32_WINNT=0x0601 -D_FILE_OFFSET_BITS=64"
 ARG LDFLAGS="-m32 -march=i686 -fstack-protector-strong"
 
@@ -139,7 +139,7 @@ ARG LDFLAGS="${LDFLAGS} -L${PREFIX}/lib -L${MINGW32_SEARCH_PATH}/lib"
 RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
 \
     && mkdir -p $BUILDROOT/xz-$XZ_VER && cd $BUILDROOT/xz-$XZ_VER \
-    && $SRC/xz-$XZ_VER/configure --prefix=$PREFIX --host=$HOST --build=$BUILD --enable-static=yes \
+    && $SRC/xz-$XZ_VER/configure --prefix=$PREFIX --host=$HOST --build=$BUILD --enable-static=yes SKIP_WERROR_CHECK=yes \
     && make -C src/liblzma -j `nproc` install \
     && cd $PREFIX && tar Jcvf xz-$XZ_VER.$ARCH.tar.xz include/ lib/ \
     && cp -rf include/ lib/ ${MINGW32_SEARCH_PATH} && rm -rf include/ lib/ \
@@ -171,7 +171,7 @@ RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
 \
     && cd $SRC/boost-$BOOST_VER \
     && echo "using gcc : mingw : ${MINGW32}-g++ : <rc>\"$WINDRES\" <archiver>${MINGW32}-ar <ranlib>${MINGW32}-ranlib <cxxflags>\"${CXXFLAGS}\" <linkflags>\"${LDFLAGS}\" ;" > user-config.jam \
-    && cd tools/build && CXX=g++ CXXFLAGS= LDFLAGS= ./bootstrap.sh \
+    && cd tools/build && CXX=g++ CXXFLAGS= LDFLAGS= WINDRES=${MINGW32}-windres ./bootstrap.sh \
     && cd ../../ && ./tools/build/b2 \
         -a \
         -q \
@@ -222,7 +222,7 @@ RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
     && mkdir -p $BUILDROOT/libvorbis-$VORBIS_VER && cd $BUILDROOT/libvorbis-$VORBIS_VER \
     && mv ${MINGW32_SEARCH_PATH}/include $PREFIX && mv ${MINGW32_SEARCH_PATH}/lib $PREFIX \
     && $SRC/libvorbis-$VORBIS_VER/configure --prefix=$PREFIX --host=$HOST --enable-static=yes --enable-shared=no \
-        --with-ogg=$PREFIX --enable-docs=no \
+        --enable-docs=no \
     && make -j `nproc` \
     && mv $PREFIX/include ${MINGW32_SEARCH_PATH} && mv $PREFIX/lib ${MINGW32_SEARCH_PATH} \
     && make install \
@@ -232,7 +232,7 @@ RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
     && mkdir -p $BUILDROOT/flac-$FLAC_VER && cd $BUILDROOT/flac-$FLAC_VER \
     && mv ${MINGW32_SEARCH_PATH}/include $PREFIX && mv ${MINGW32_SEARCH_PATH}/lib $PREFIX \
     && $SRC/flac-$FLAC_VER/configure --prefix=$PREFIX --host=$HOST --enable-static=yes --enable-shared=no \
-        --enable-ogg --with-ogg=$PREFIX --disable-doxygen-docs --disable-xmms-plugin \
+        --enable-ogg --disable-doxygen-docs --disable-xmms-plugin --disable-examples \
     && make -j `nproc` \
     && mv $PREFIX/include ${MINGW32_SEARCH_PATH} && mv $PREFIX/lib ${MINGW32_SEARCH_PATH} \
     && make install \
@@ -317,7 +317,7 @@ ARG HOST=x86_64-w64-mingw32
 ARG ARCH=x86_64
 
 ARG CFLAGS="-m64 -mno-ms-bitfields -fstack-protector-strong  -std=gnu17 -fpermissive"
-ARG CXXFLAGS="-m64 -mno-ms-bitfields -fstack-protector-strong"
+ARG CXXFLAGS="-m64 -mno-ms-bitfields -fstack-protector-strong -fpermissive"
 ARG CPPFLAGS="-DWINVER=0x0601 -D_WIN32_WINNT=0x0601 -D_FILE_OFFSET_BITS=64"
 ARG LDFLAGS="-m64 -fstack-protector-strong"
 
@@ -345,7 +345,7 @@ ARG LDFLAGS="${LDFLAGS} -L${PREFIX}/lib -L${MINGW32_SEARCH_PATH}/lib"
 RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
 \
     && mkdir -p $BUILDROOT/xz-$XZ_VER && cd $BUILDROOT/xz-$XZ_VER \
-    && $SRC/xz-$XZ_VER/configure --prefix=$PREFIX --host=$HOST --build=$BUILD --enable-static=yes \
+    && $SRC/xz-$XZ_VER/configure --prefix=$PREFIX --host=$HOST --build=$BUILD --enable-static=yes SKIP_WERROR_CHECK=yes \
     && make -C src/liblzma -j `nproc` install \
     && cd $PREFIX && tar Jcvf xz-$XZ_VER.$ARCH.tar.xz include/ lib/ \
     && cp -rf include/ lib/ ${MINGW32_SEARCH_PATH} && rm -rf include/ lib/ \
@@ -377,7 +377,7 @@ RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
 \
     && cd $SRC/boost-$BOOST_VER \
     && echo "using gcc : mingw : ${MINGW32}-g++ : <rc>\"$WINDRES\" <archiver>${MINGW32}-ar <ranlib>${MINGW32}-ranlib <cxxflags>\"${CXXFLAGS}\" <linkflags>\"${LDFLAGS}\" ;" > user-config.jam \
-    && cd tools/build && CXX=g++ CXXFLAGS= LDFLAGS= ./bootstrap.sh \
+    && cd tools/build && CXX=g++ CXXFLAGS= LDFLAGS= WINDRES=${MINGW32}-windres ./bootstrap.sh \
     && cd ../../ && ./tools/build/b2 \
         -a \
         -q \
@@ -428,7 +428,7 @@ RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
     && mkdir -p $BUILDROOT/libvorbis-$VORBIS_VER && cd $BUILDROOT/libvorbis-$VORBIS_VER \
     && mv ${MINGW32_SEARCH_PATH}/include $PREFIX && mv ${MINGW32_SEARCH_PATH}/lib $PREFIX \
     && $SRC/libvorbis-$VORBIS_VER/configure --prefix=$PREFIX --host=$HOST --enable-static=yes --enable-shared=no \
-        --with-ogg=$PREFIX --enable-docs=no \
+        --enable-docs=no \
     && make -j `nproc` \
     && mv $PREFIX/include ${MINGW32_SEARCH_PATH} && mv $PREFIX/lib ${MINGW32_SEARCH_PATH} \
     && make install \
@@ -438,7 +438,7 @@ RUN mkdir -p ${MINGW32_SEARCH_PATH} $PREFIX $BUILDROOT \
     && mkdir -p $BUILDROOT/flac-$FLAC_VER && cd $BUILDROOT/flac-$FLAC_VER \
     && mv ${MINGW32_SEARCH_PATH}/include $PREFIX && mv ${MINGW32_SEARCH_PATH}/lib $PREFIX \
     && $SRC/flac-$FLAC_VER/configure --prefix=$PREFIX --host=$HOST --enable-static=yes --enable-shared=no \
-        --enable-ogg --with-ogg=$PREFIX --disable-doxygen-docs --disable-xmms-plugin \
+        --enable-ogg --disable-doxygen-docs --disable-xmms-plugin --disable-examples \
     && make -j `nproc` \
     && mv $PREFIX/include ${MINGW32_SEARCH_PATH} && mv $PREFIX/lib ${MINGW32_SEARCH_PATH} \
     && make install \
