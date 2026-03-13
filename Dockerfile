@@ -1,5 +1,5 @@
 # MINGW_W64_IMG := cgdoc/mingw-w64-multilib:win32-vX.Y | cgdoc/mingw-w64-multilib:posix-vX.Y
-ARG MINGW_W64_IMG=cgdoc/mingw-w64-multilib:win32-v1.8-el9
+ARG MINGW_W64_IMG=cgdoc/mingw-w64-multilib:win32-v1.9-el9
 
 ################### Stage: Prepare the sources to compile ######################
 FROM $MINGW_W64_IMG AS builder
@@ -47,9 +47,7 @@ ENV PCRE2_VER=10.47
 
 COPY Makefile.libgnurx $SRC
 
-RUN sed -i "s/swap(thread\&\& other)/swap(thread\& other)/" /opt/mingw-w64/x86_64-w64-mingw32/include/c++/10.5.0/thread \
-    && sed -i "s/swap(std::forward<thread>(other))/swap(other)/" /opt/mingw-w64/x86_64-w64-mingw32/include/c++/10.5.0/thread \
-    && cd $SRC \
+RUN cd $SRC \
 \
     && curl -L -O https://distfiles.macports.org/xz/xz-$XZ_VER.tar.bz2 \
     && curl -L -O https://sourceware.org/pub/bzip2/bzip2-$BZIP2_VER.tar.gz \
