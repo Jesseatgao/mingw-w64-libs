@@ -5,11 +5,11 @@ on:
     inputs:
       tags:
         description: The tags of the built image
-        default: cgdoc/mingw-w64-libs:test-posixv1.8el9-v1.0
+        default: cgdoc/mingw-w64-libs:test-posixv1.9el9-v1.0
         required: true
       builder:
         description: The tag of the docker builder image
-        default: cgdoc/mingw-w64-multilib:posix-v1.8-el9
+        default: cgdoc/mingw-w64-multilib:posix-v1.9-el9
         required: true
 
 jobs:
